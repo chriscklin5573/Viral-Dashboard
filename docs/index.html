@@ -1,25 +1,540 @@
 <!DOCTYPE html>
-<html lang="zh"><head>
+<html lang="zh">
+<head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex">
-<meta http-equiv="refresh" content="60">
-<title>爆款雷达 · 还在加载</title>
+<title>FINANCE</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
 <style>
-  body{margin:0;min-height:100vh;display:flex;align-items:center;justify-content:center;
-       background:#0a0d13;color:#e8e8ea;text-align:center;padding:24px;
-       font-family:"PingFang SC","Microsoft YaHei",system-ui,sans-serif}
-  .spin{width:34px;height:34px;margin:0 auto 26px;border:3px solid #2a2f3a;
-        border-top-color:#ff785a;border-radius:50%;animation:s 1s linear infinite}
-  @keyframes s{to{transform:rotate(360deg)}}
-  h1{font-size:23px;margin:0 0 14px;font-weight:600}
-  p{margin:8px 0;color:#9a9aa2;font-size:15px;line-height:1.75}
-  .hint{margin-top:30px;font-size:13.5px;color:#6e6e78}
-  @media(prefers-reduced-motion:reduce){.spin{animation:none}}
-</style></head><body><div>
-  <div class="spin"></div>
-  <h1>你的页面还在加载中,请稍等</h1>
-  <p>第一次大约需要 20-60 分钟。</p>
-  <p>这一页会自己刷新,你可以先去忙别的。</p>
-  <p class="hint">等很久都没变?回到安装 SOP 第 7 步,<br>到仓库的 Actions 看 Sync Content 有没有跑完。</p>
-</div></body></html>
+  :root {
+    --bg: #0a0d13;
+    --card: #11151d;
+    --card-hi: #151a24;
+    --border: #1d2430;
+    --border-hi: #2c3546;
+    --text: #e8ecf3;
+    --muted: #8a94a6;
+    --faint: #5b6577;
+    --accent: #5ea1ff;
+    --green: #3fd68f;
+    --orange: #f0a33f;
+    --pink: #ff6b9d;
+    --red: #ff5c5c;
+    --fire1: #ff8a3d;
+    --fire2: #ff4d6d;
+    --font: 'Inter', -apple-system, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+    --disp: 'Space Grotesk', 'Inter', -apple-system, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scrollbar-color: #232c3b var(--bg); }
+  body { background: var(--bg); color: var(--text); font-family: var(--font);
+    -webkit-font-smoothing: antialiased; }
+  ::selection { background: rgba(94,161,255,.3); }
+  ::-webkit-scrollbar { width: 10px; height: 10px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: #232c3b; border-radius: 8px; }
+  ::-webkit-scrollbar-thumb:hover { background: #2c3546; }
+  :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 6px; }
+
+  .ic { width: 14px; height: 14px; stroke: currentColor; stroke-width: 2;
+    stroke-linecap: round; stroke-linejoin: round; fill: none; flex: none; }
+
+  header { position: sticky; top: 0; z-index: 50; background: rgba(10,13,19,.86);
+    backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+    border-bottom: 1px solid var(--border); padding: 13px 20px 12px; }
+  .hrow { display: flex; flex-wrap: wrap; gap: 9px; align-items: center; max-width: 1440px; margin: 0 auto; }
+  .brand { display: flex; align-items: center; gap: 10px; margin-right: auto; }
+  .mark { width: 31px; height: 31px; border-radius: 9px; display: grid; place-items: center;
+    background: linear-gradient(135deg, var(--fire1), var(--fire2));
+    box-shadow: 0 4px 16px rgba(255,92,80,.35); }
+  .mark .ic { width: 17px; height: 17px; color: #fff; }
+  h1 { font-family: var(--disp); font-size: 16.5px; font-weight: 700; letter-spacing: .2px; white-space: nowrap; line-height: 1.15; }
+  h1 small { display: block; color: var(--faint); font-family: var(--font); font-weight: 400;
+    font-size: 10.5px; letter-spacing: 0; }
+
+  .search { position: relative; }
+  .search > .ic { position: absolute; left: 11px; top: 50%; transform: translateY(-50%);
+    color: var(--faint); width: 13.5px; pointer-events: none; }
+  input#fSearch { background: var(--card); color: var(--text); border: 1px solid var(--border);
+    border-radius: 10px; padding: 8px 12px 8px 32px; font-size: 13px; font-family: var(--font);
+    width: 200px; transition: border-color .18s, background .18s; }
+  input#fSearch:hover { border-color: var(--border-hi); }
+  input#fSearch:focus { border-color: var(--accent); outline: none; }
+  input#fSearch::placeholder { color: var(--faint); }
+
+  select, .btn { background: var(--card); color: var(--text); border: 1px solid var(--border);
+    border-radius: 10px; padding: 8px 11px; font-size: 13px; font-family: var(--font);
+    cursor: pointer; transition: border-color .18s, background .18s, color .18s;
+    display: inline-flex; align-items: center; gap: 6px; }
+  select:hover, .btn:hover { border-color: var(--border-hi); background: var(--card-hi); }
+  .btn:active { transform: scale(.97); }
+  .btn.on { border-color: var(--accent); color: var(--accent); background: rgba(94,161,255,.08); }
+
+  .tabs { display: flex; gap: 7px; flex-wrap: wrap; max-width: 1440px; margin: 12px auto 0; }
+  .tab { display: inline-flex; align-items: center; gap: 7px; background: var(--card);
+    border: 1px solid var(--border); border-radius: 999px; padding: 6.5px 14px;
+    font-size: 13px; color: var(--muted); cursor: pointer; user-select: none;
+    transition: border-color .18s, background .18s, color .18s, transform .18s; }
+  .tab:hover { border-color: var(--border-hi); color: var(--text); }
+  .tab .cnt { font-family: var(--disp); font-weight: 600; font-size: 11px;
+    background: rgba(255,255,255,.06); padding: 1.5px 7.5px; border-radius: 99px;
+    font-variant-numeric: tabular-nums; }
+  .tab.on { color: var(--text);
+    background: linear-gradient(135deg, rgba(255,138,61,.15), rgba(255,77,109,.15));
+    border-color: rgba(255,120,90,.45); }
+  .tab.on .cnt { background: rgba(255,120,90,.25); }
+  body.dragging .tab.droppable { border-style: dashed; border-color: var(--accent); }
+  .tab.over { background: rgba(94,161,255,.22); color: var(--text); transform: scale(1.07); }
+
+  .chips { display: flex; gap: 6px; flex-wrap: wrap; max-width: 1440px; margin: 9px auto 0; align-items: center; }
+  .chips .lbl { font-size: 12px; color: var(--faint); margin-right: 2px; }
+  .chip2 { display: inline-flex; align-items: center; gap: 5.5px; background: var(--card);
+    border: 1px solid var(--border); border-radius: 999px; padding: 4.5px 12px;
+    font-size: 12px; color: var(--muted); cursor: pointer; user-select: none;
+    transition: border-color .18s, color .18s, background .18s;
+    font-variant-numeric: tabular-nums; }
+  .chip2 .ic { width: 12.5px; height: 12.5px; }
+  .chip2:hover { border-color: var(--border-hi); color: var(--text); }
+  .chip2.on { border-color: rgba(240,163,63,.6); color: var(--orange); background: rgba(240,163,63,.08); }
+
+  main { max-width: 1440px; margin: 22px auto; padding: 0 20px; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(305px, 1fr)); gap: 18px; }
+
+  .card { position: relative; background: var(--card); border: 1px solid var(--border);
+    border-radius: 16px; overflow: hidden; display: flex; flex-direction: column;
+    transition: transform .22s cubic-bezier(.2,.7,.3,1), border-color .22s, box-shadow .22s;
+    animation: fadeUp .45s cubic-bezier(.2,.7,.3,1) both; }
+  .card:hover { transform: translateY(-3px); border-color: var(--border-hi);
+    box-shadow: 0 12px 32px rgba(0,0,0,.45); }
+  .card.outlier::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+    background: linear-gradient(90deg, var(--fire1), var(--fire2)); z-index: 2; }
+  .card[draggable] { cursor: grab; }
+  .card.lifting { opacity: .45; }
+  .card.saved { border-color: var(--green); }
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+
+  .embed { position: relative; width: 100%; aspect-ratio: 4/5; background: #080b10; }
+  .embed iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+  .embed .ph { position: absolute; inset: 0; display: grid; place-items: center;
+    background: linear-gradient(110deg, #0b0e15 8%, #121826 18%, #0b0e15 33%);
+    background-size: 200% 100%; animation: shimmer 1.5s linear infinite; }
+  .embed .ph .ic { width: 30px; height: 30px; color: #2a3342; stroke-width: 1.6; }
+  @keyframes shimmer { to { background-position-x: -200%; } }
+
+  .meta { padding: 13px 15px 14px; display: flex; flex-direction: column; gap: 9px; }
+  .row1 { display: flex; align-items: center; gap: 7px; font-size: 13px; flex-wrap: wrap; }
+  .handle { color: #3a4456; cursor: grab; display: inline-flex; }
+  .handle .ic { width: 13px; height: 13px; }
+  .who { font-weight: 600; color: var(--accent); text-decoration: none; }
+  .who:hover { text-decoration: underline; }
+  .badge { display: inline-flex; align-items: center; gap: 4px; font-size: 10.5px; font-weight: 500;
+    padding: 2.5px 8px; border-radius: 999px; border: 1px solid var(--border); color: var(--muted); }
+  .badge .ic { width: 10.5px; height: 10.5px; }
+  .badge.bnew { color: var(--pink); border-color: rgba(255,107,157,.45); background: rgba(255,107,157,.07); }
+  .badge.bhorse { color: var(--orange); border-color: rgba(240,163,63,.45); background: rgba(240,163,63,.07); }
+  .badge.bbait { color: var(--accent); border-color: rgba(94,161,255,.4); background: rgba(94,161,255,.07); }
+  .date { margin-left: auto; color: var(--faint); font-size: 11px; font-variant-numeric: tabular-nums; }
+
+  .nums { display: flex; gap: 6px; flex-wrap: wrap; }
+  .num { display: inline-flex; align-items: center; gap: 5px; background: #0c0f16;
+    border: 1px solid var(--border); border-radius: 9px; padding: 5px 9px;
+    font-size: 11px; color: var(--muted); }
+  .num .ic { width: 11.5px; height: 11.5px; }
+  .num b { font-family: var(--disp); color: var(--text); font-size: 12.5px; font-weight: 600;
+    font-variant-numeric: tabular-nums; }
+  .num.hot { border-color: rgba(255,122,77,.35); }
+  .num.hot .ic, .num.hot b { color: #ff7a4d; }
+  .num.x { border-color: rgba(240,163,63,.35); }
+  .num.x .ic, .num.x b { color: var(--orange); }
+  .num.er .ic, .num.er b { color: var(--green); }
+
+  .cap { color: var(--muted); font-size: 12.5px; line-height: 1.55; display: -webkit-box;
+    -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; cursor: pointer; }
+  .cap.open { -webkit-line-clamp: unset; }
+  .cap b { color: var(--text); font-weight: 600; }
+  .ai { border-left: 2px solid var(--orange); background: rgba(240,163,63,.06);
+    padding: 8px 11px; border-radius: 0 10px 10px 0; font-size: 12px; line-height: 1.65;
+    color: var(--muted); }
+  .ai b { color: var(--orange); font-weight: 600; }
+  .mine { border-left: 2px solid var(--green); background: rgba(63,214,143,.06);
+    padding: 8px 11px; border-radius: 0 10px 10px 0; font-size: 12px; line-height: 1.65;
+    color: var(--muted); cursor: pointer; display: -webkit-box; -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical; overflow: hidden; white-space: pre-wrap; }
+  .mine.open { -webkit-line-clamp: unset; }
+  .mine b { color: var(--green); font-weight: 600; }
+
+  .srow { display: flex; align-items: center; gap: 7px; }
+  .srow label { font-size: 12px; color: var(--faint); }
+  .status { flex: 1; padding: 6px 9px; font-size: 12.5px; }
+  .status.s未处理 { color: var(--muted); }
+  .status.s拍摄中 { color: var(--orange); border-color: rgba(240,163,63,.5); }
+  .status.s已处理 { color: var(--green); border-color: rgba(63,214,143,.5); }
+  .status.s跳过 { color: var(--red); border-color: rgba(255,92,92,.5); }
+  .abtn { display: inline-flex; align-items: center; gap: 5px; background: #0c0f16;
+    color: var(--muted); border: 1px solid var(--border); border-radius: 9px;
+    padding: 6px 10px; font-size: 11.5px; font-family: var(--font); cursor: pointer;
+    text-decoration: none; transition: color .18s, border-color .18s, transform .1s; }
+  .abtn .ic { width: 12px; height: 12px; }
+  .abtn:hover { color: var(--accent); border-color: rgba(94,161,255,.5); }
+  .abtn:active { transform: scale(.95); }
+
+  .more { text-align: center; margin: 28px 0 44px; }
+  .more button { background: var(--card); color: var(--accent); border: 1px solid var(--border);
+    border-radius: 12px; padding: 11px 30px; font-size: 14px; font-family: var(--font);
+    cursor: pointer; transition: border-color .18s, background .18s; }
+  .more button:hover { border-color: var(--border-hi); background: var(--card-hi); }
+
+  .empty { color: var(--faint); text-align: center; padding: 70px 0; display: flex;
+    flex-direction: column; align-items: center; gap: 12px; font-size: 14px; }
+  .empty .ic { width: 34px; height: 34px; stroke-width: 1.5; color: #2c3546; }
+
+  footer { color: var(--faint); font-size: 11px; text-align: center; padding: 22px; }
+
+  #toast { position: fixed; bottom: 26px; left: 50%; transform: translateX(-50%) translateY(8px);
+    background: var(--card-hi); border: 1px solid var(--border-hi); border-radius: 11px;
+    padding: 11px 20px; font-size: 13px; display: none; z-index: 99; opacity: 0;
+    box-shadow: 0 12px 32px rgba(0,0,0,.5); transition: opacity .2s, transform .2s; }
+  #toast.show { display: block; opacity: 1; transform: translateX(-50%) translateY(0); }
+
+  @media (prefers-reduced-motion: reduce) {
+    * { animation: none !important; transition: none !important; }
+  }
+</style>
+</head>
+<body>
+<svg style="display:none" xmlns="http://www.w3.org/2000/svg">
+  <symbol id="i-flame" viewBox="0 0 24 24"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></symbol>
+  <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></symbol>
+  <symbol id="i-heart" viewBox="0 0 24 24"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.29 1.51 4.04 3 5.5l7 7Z"/></symbol>
+  <symbol id="i-msg" viewBox="0 0 24 24"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/></symbol>
+  <symbol id="i-users" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></symbol>
+  <symbol id="i-trend" viewBox="0 0 24 24"><path d="M22 7l-8.5 8.5-5-5L2 17"/><path d="M16 7h6v6"/></symbol>
+  <symbol id="i-zap" viewBox="0 0 24 24"><path d="M13 2 3 14h9l-1 8 10-12h-9l1-8z"/></symbol>
+  <symbol id="i-star" viewBox="0 0 24 24"><path d="M12 2l2.9 6.9 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.5l7.1-.6z"/></symbol>
+  <symbol id="i-magnet" viewBox="0 0 24 24"><path d="m6 15-4-4 6.75-6.77a7.79 7.79 0 0 1 11 11L13 22l-4-4 6.39-6.36a2.14 2.14 0 0 0-3-3L6 15"/><path d="m5 8 4 4"/><path d="m12 15 4 4"/></symbol>
+  <symbol id="i-copy" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></symbol>
+  <symbol id="i-clip" viewBox="0 0 24 24"><rect x="8" y="2" width="8" height="4" rx="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><path d="M9 12h6"/><path d="M9 16h6"/></symbol>
+  <symbol id="i-ext" viewBox="0 0 24 24"><path d="M15 3h6v6"/><path d="M10 14 21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></symbol>
+  <symbol id="i-key" viewBox="0 0 24 24"><circle cx="7.5" cy="15.5" r="5.5"/><path d="m21 2-9.6 9.6"/><path d="m15.5 7.5 3 3L22 7l-3-3"/></symbol>
+  <symbol id="i-video" viewBox="0 0 24 24"><path d="m10 8 6 4-6 4Z"/><rect x="2" y="4" width="20" height="16" rx="3"/></symbol>
+  <symbol id="i-image" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-5-5L5 21"/></symbol>
+  <symbol id="i-layers" viewBox="0 0 24 24"><path d="M12 2 2 7l10 5 10-5-10-5z"/><path d="m2 17 10 5 10-5"/><path d="m2 12 10 5 10-5"/></symbol>
+  <symbol id="i-grip" viewBox="0 0 24 24"><circle cx="9" cy="5" r="1"/><circle cx="9" cy="12" r="1"/><circle cx="9" cy="19" r="1"/><circle cx="15" cy="5" r="1"/><circle cx="15" cy="12" r="1"/><circle cx="15" cy="19" r="1"/></symbol>
+  <symbol id="i-pct" viewBox="0 0 24 24"><path d="M19 5 5 19"/><circle cx="6.5" cy="6.5" r="2.5"/><circle cx="17.5" cy="17.5" r="2.5"/></symbol>
+  <symbol id="i-mic" viewBox="0 0 24 24"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><path d="M12 19v3"/></symbol>
+</svg>
+<header>
+  <div class="hrow">
+    <div class="brand">
+      <div class="mark"><svg class="ic"><use href="#i-flame"/></svg></div>
+      <h1>FINANCE<small id="updated"></small></h1>
+    </div>
+    <div class="search"><svg class="ic"><use href="#i-search"/></svg>
+      <input id="fSearch" placeholder="搜文案 / hashtag / 账号"></div>
+    <select id="fTracker"><option value="">全部 Tracker</option></select>
+    <select id="fComp"><option value="">全部 Competitor</option></select>
+    <select id="fSort">
+      <option value="x">按 爆款倍数 (vs 自家平均)</option>
+      <option value="score">按 Viral Score</option>
+      <option value="er">按 Engagement Rate</option>
+      <option value="comments">按 Comments</option>
+      <option value="likes">按 Likes</option>
+      <option value="date">按 最新日期</option>
+    </select>
+    <button class="btn" id="fVideo"><svg class="ic"><use href="#i-video"/></svg>只看视频</button>
+
+    <a class="btn" href="team.html" target="_top" title="工作台"><svg class="ic"><use href="#i-users"/></svg>工作台</a>
+  </div>
+  <div class="tabs" id="tabs"></div>
+  <div class="chips" id="presets"></div>
+  <div class="chips" id="trends"></div>
+</header>
+<main>
+  <div class="grid" id="grid"></div>
+  <div class="empty" id="empty" style="display:none"><svg class="ic"><use href="#i-search"/></svg>没有符合条件的帖子</div>
+  <div class="more" id="moreWrap" style="display:none"><button id="moreBtn">载入更多</button></div>
+</main>
+<footer>数据来源 Supabase · 每周自动更新 · 状态更改即时同步全团队 · 视频由 Instagram 官方 embed 播放</footer>
+<div id="toast"></div>
+<script id="data" type="application/json">[{"id": "Dd3cPD-JBUw", "tracker": "FINANCE 竞对", "competitor": "loan_superman", "caption": "又要开放 又要保守\n又要独立 又不能太强\n到底要怎样😂", "transcript": "有沒有覺得現在的女生可憐主動幫你喊交你講得太少不幫你吃香蕉你又講沒情趣喜歡瘦的嫌羡人要兇小改裝大兇給你又嫌羊滑不求牧牆你講拜進女失業性牆你講不像女人男生乾過很多個叫風流瀟灑女生睡多幾個叫水性陽花主動和你要你講他洗鼻癢不想要你講他裝金痴遇到寶寶小的還要裝高潮給你爽完的不用緊你還反過來嫌他送卻沒有往下看問題是不是自己想", "brk": "Hook类型: 身份共鸣\n结构: 吐槽双重标准现象 → 细数男女相处矛盾 → 结尾反讽直指本质\n为什么火: 精准捕捉男女恋爱中的双重标准与痛点，引发强烈共鸣与讨论\n改编角度: 盘点华人借贷或理财中的双重标准，如嫌利息高又想秒下款的奇葩心态", "my": "现在欠卡债的人都很会玩。\n表面看起來 payment record 美美的，但手頭上的現金越來越少，有沒有覺得很熟悉？\n很多人以为，只要每个月跟着 min pay 还，或者是把卡债转去不同的 installment plan，卡债就会自己消失。\n其实这样的操作有 3 个盲点。\nD1 假象安全感。以为这样是在解决问题，其实就换个地方欠钱，卡债数目一直都没变少。Credit card 的利息是每个月 charge 的，一年下来就是 18% 利息，辛苦钱白白给多利息。\nD2 拖到以后再还。以为只要拖，就有机会等到奖金、加薪或更松动的时候再处理。但利息是按月算的，拖越久中息的机会越大，最后越滚越大，陷入恶性循环。\nD3 忽略心理成本。长期下去只会越来越焦虑，天天在想是要还哪张卡，内耗久了搞到生活质量下降，甚至影响工作效率。\nTNG 搬债并非解决方案，只是延迟爆炸。真正的解决方式是降低利息加指定还款期限，才有真正结束的一天。\n我遇到这位顾客 Ms L，欠 3 间 bank 总数 100k。她就用 30k 的本金一直 roll，每月先还 Bank A，再 withdraw 出来还 Bank B，再搬去 Bank C，维持了 3 年。\n3 年后还是欠 100k，本金从原本 30k roll 剩 5k 而已，手头现金越来越少。\n以前 Ms L 盲目搬债，每个月提心吊胆，差一点面临现金流断裂。\n现在 Ms L 采用 personal loan 的方案，成功达到利息减半、调低供期增加每月现金流，在指定时间里面 clear 掉债务。\n卡债欠久不是你的错，只是没用对方式解决而已。\n如果你目前面对卡债问题，私讯我了解你的状况，我们来看什么方案适合你。\n只有在承担责任中，我们才能真正掌握理财的智慧。", "tags": "", "bait": false, "type": "Video", "likes": 14241, "comments": 191, "er": 148.29, "followers": 9732, "date": "2026-09-29", "url": "https://www.instagram.com/p/Dd3cPD-JBUw/", "video": true, "ratio": 0, "score": 152.22, "status": "未处理", "x": 6.6}, {"id": "DfRiUbTpngE", "tracker": "FINANCE 竞对", "competitor": "loan_superman", "caption": "别等人家来救你 预备一下没坏处的\n希望一切只是我想太多", "transcript": "全世界的人開始蹲涼死了你還殺殺聽政府講不用準備50多個國家已經叫人民stop拋食物就連Ager的Rubin和台灣都已經開始了然後又這樣剛好政府這裡講要Testing新的Emergency Alert System那裡我們親愛的副首相又講國家有6個月的Full Surprise for 全部人民不需要Panic Buying你不覺得很奇怪嗎一邊叫人民做好準備另一邊又叫你不要恐慌很明顯他們一定懂有東西要來聊的只是不要你Panic Buying政府講什麼你信什麼嗎我是不信啊你想回幾年前Covid的時候WHO一直鼓勵大家打Vaccine然後政府跟你講不打Vaccine不能出門不能做工到後來Apps-TinFall裡面有證實了Vaccine是Build Gates他們搞出來的未來要控制人口我們現在不狼恰懂什麼事情會發生但是你看下新聞一下子降狼恰多Financial Institution被Hack一下子冰除被Hack全部食物壞完一下子Power Plant被Hack我看到東西是有人會利用AI來stop拋然後Hack掉你的店員水源 Banking System這些沒有店醫院Habit 食物Habit藥物 燃油 通訊Humlung Habit全部東西的目的只有一個就是為了減少人口Covid 2年裡面死了1500萬人你覺得沒有店兩個禮拜會死多少人當然我希望我講的東西全部是錯的", "brk": "Hook类型: 阴谋论/危机预警\n结构: 全球囤粮异动 → 政府矛盾表态 → 借疫情联想阴谋 → AI攻击基础设施骇人推演\n为什么火: 结合全球局势与AI黑客隐患，放大生存焦虑，激发恐慌与转发欲。\n改编角度: 从末日囤粮转为金融危机预警，揭秘富人如何用黄金和对冲工具度过即将到来的经济崩盘。", "my": "现在的经济状况，欠卡是很正常的事。\n目前我已经处理超过300位有卡债的顾客。\n发觉有些顾客就算卡债才欠几千块，却可以花上1-2年时间都还不完。\n如果你一直面对卡债问题，记得把这条视频看完。\n我遇到的顾客通常都是中这3个陷阱。\nD1就是跟着min pay还。\nmin pay的算法是卡债的5%。\n当你每月就算跟着min pay还，卡债也会慢慢减少时，每月账单显示的min pay也会越来越少。\n但其实这样会拖长了还款期限。\n而credit card的利息是每个月charge的。\n一年下来就是18%利息。\n就这样每月还辛苦钱白白给多利息。\nD2就是还了了又刷。\n利息已经够kaw了。\n还进去的钱扣掉利息后没剩多少来解决母金而已。\n如果有刷回出来用，会是没完没了的事情，恶性循环。\nD3就是乱转installment。\n有些credit card product是低利息。\n但有些offer期限很短。\n而且不一定能把卡债全部转完。\n最后installment和剩余的卡债两边供。\n月供拉高了，还卡后通常到月中就手头紧。\n最后还是刷回卡用。\n教你一个方式，用AI帮你设定一个方案。\n首先，你需要set一个每个月还卡的budget。\n在set budget之前，你一定要切记这3点。\n是要供到舒服的数目，还卡过后还可以应付其他commitment和日常开销。\n还卡后一定不可以刷回出来。\n数目不可以少过min pay。\n比如现在有10k卡债，min pay是500。\n如果你只能还500，那budget就set每月RM500。\n当然能比min pay更高就更好。\n接下来你可以跟着这个format，把卡债数目，利息和budget输入chatgpt。\n叫它帮你generate一个schedule出来。\n从这里已经可以看到10k卡债，每月还500，可以24个月里面还完。\n你还可以让chatgpt整理一个excel file出来给你。\n弄出来后会是这样子的。\n只要你别理账单上的minimum payment，每月跟着定好的schedule还。\n还了不要刷，就可以轻松绕过信用卡的陷阱。\n你甚至可以把整个payment schedule自动化。\n去bank app里面弄auto debit，set好你的budget。\n过账日期set在每月credit card due date之前。\n最好放在出粮过后的那个星期，每月出粮就自动过账。\n基本上只要自律和善用现金流，是可以用这个方式自己解决掉卡债。\nMs L欠3间bank，总数100k。\n她就用30k的本金一直roll。\n每月先还Bank A，再withdraw出来还Bank B，再搬去Bank C。\n就这样，维持了3年。\n表面看起来payment record美美的，但是她发觉手头上的现金越来越少。\n最后Ms L采用personal loan的方案。\n成功做到利息减半，有效还款。\n调低供期，增加每月现金流。\n有需要的话也可以杠杆一笔cash on hand。\n以前Ms L盲目转installment和搬债，每个月被18%利息压得透不过气，工作也受到影响。\n用对方法重整债务之后，卡债在指定期限内清掉，供期在budget里面，生活也恢复正常。\n先说明一下哈，我这里并不是刻意要sell什么。\n如果你本身是面对着什么问题或有什么顾虑，可以给我知道。\n至少我这里了解了可以给到相对中肯的advise。", "tags": "", "bait": false, "type": "Video", "likes": 10686, "comments": 122, "er": 111.06, "followers": 9732, "date": "2026-11-03", "url": "https://www.instagram.com/p/DfRiUbTpngE/", "video": true, "ratio": 0, "score": 113.56, "status": "未处理", "x": 4.9}, {"id": "DeMG2a1JMO8", "tracker": "FINANCE 竞对", "competitor": "loan_superman", "caption": "网络诈骗手法层出不穷\n转发给身边家人朋友提防下", "transcript": "千万不要跟我点进去这种发哦就算你问世人发给你都千万不要跟我开马上转发给你的家人朋友我这顾客就是差一点钟找前几个月我帮他批了一个物质开啸的论刚刚好啊罗叶上个礼拜讲这个礼拜会出钱就在昨天罗叶的Whatsapp中hackSend一个ZIP发叫顾客开你们要懂ZIP发是一种很common的发来的如果当时候罗叶没有立刻马上换他的profile picturewarning全部人他的Whatsapp中hack有的话这顾客早就已经中了了所以以后收到这种document不要看到对方是认识的人就直接开最好先去call对方confirm真的是他Send的然后要开之前可以upload去这个wapsite先check清楚有没有病毒不要闲麻烦不然到时候你要call都没有眼泪然后如果有人Whatsapp send你这种发的话不用想con高难财Firm全部是scam转发给家人朋友不要等到钟找了才来后悔", "brk": "Hook类型: 痛点直击\n结构: 真实诈骗案例 → 揭秘ZIP文件陷阱 → 防骗操作教学与呼吁\n为什么火: 利用熟人账号被盗的真实惊险故事，精准戳中华人防范诈骗的焦虑痛点。\n改编角度: 结合贷款客户被诈骗犯冒充放贷人骗取手续费的案例，警示粉丝贷款前核实身份。", "my": "现在的经济状况，欠卡是很正常的事。记得把这条视频看完。\n\n很多欠卡债的人以为，只要把卡债搬来搬去、每个月按时还 min pay、或者盲目转 installment，就能把债务清掉。\n\n其实这样的操作有 3 个盲点。\n\nD1 假象安全感。以为用 TNG 搬债是在解决问题，其实只是换个地方欠钱，卡债数目一直都没变少。就像 Ms L 欠 3 间 bank 总数 100k，用 30k 的本金一直 roll，表面 payment record 美美的，手头现金却越来越少。\n\nD2 拖到以后再还。以为只要拖到有奖金或加薪再处理就行，但卡债利息按月算，一年下来就是 18% 利息。拖越久中息机会越大，最后利息比母金还高，根本翻不了身。\n\nD3 忽略心理成本。长期下去天天在想今天要还哪张卡，内耗久了搞到生活质量下降，甚至影响工作效率错过升职机会，整个人被卡债牵着走。\n\nTNG 搬债并非解决方案，只是延迟爆炸。\n\n教你一个方式，用 AI 帮你设定一个方案。首先，你要 set 一个每个月还卡的 budget，要供到舒服的数目，还卡过后还可以应付其他 commitment 和日常开销。其次，还卡后一定不可以刷回出来。最后，数目不可以少过 min pay。\n\n接下来你可以把卡债数目、利息和 budget 输入 chatgpt，叫它帮你 generate 一个 schedule 出来，还可以让 chatgpt 整理一个 excel file 出来。最后去 bank app 里面弄 auto debit，set 好你的 budget，过账日期放在出粮过后的那个星期。只要自律和善用现金流，是可以自己解决掉卡债的。\n\n话虽这样说，但卡债就好像生病这样。伤风感冒这些小病可以自己去 pharmacy 买药吃。但如果你意识到状况已经不是自己一个人可以搞定，你要的不是药，而是整套治疗方案。\n\n・ Ms L 欠 3 间 bank 共 100k，用 30k 本金一直 roll 了 3 年，本金 roll 剩 5k，现金流断裂差点崩盘。\n・ 她有稳定收入，卡债一直都有还至少 min pay，最重要是她有心要解决。\n・ 采用 personal loan 方案后，利息减半，调低供期增加现金流，在指定时间里面 clear 掉债务。\n\n以前 Ms L 用 30k 本金在不同 bank 之间搬来搬去，表面 payment record 美美的，其实手头现金越来越少。用对方法以后，卡债利息减半，每个月供期在 budget 里面，信用卡保持 active，credit scoring 保持良好。\n\n如果你本身是面对着什么问题或有什么顾虑，可以私讯我。先说明一下哈，我这里并不是刻意要 sell 什么，我们可以帮你 review 和 planning，定制适合你的方案。只有在承担责任中，我们才能真正掌握理财的智慧。", "tags": "", "bait": false, "type": "Video", "likes": 5473, "comments": 36, "er": 56.61, "followers": 9732, "date": "2026-10-07", "url": "https://www.instagram.com/p/DeMG2a1JMO8/", "video": true, "ratio": 0, "score": 57.35, "status": "未处理", "x": 2.5}, {"id": "DdYm2XvJjI6", "tracker": "FINANCE 竞对", "competitor": "loan_superman", "caption": "Payslip有扣EPF，不代表老板真的有帮你交\n\n打工的真的要偶尔自己check，不要等到要apply loan、需要EPF statement才发现几年都没进\n\n怎样check？\n\nEPF 👉 KWSP i-Akaun\nSOCSO & EIS 👉 PERKESO Prihatin App\n\n最好拿payslip一起对，看每个月扣的钱有没有真的进去\n\n如果明明有扣，却长期没有缴进去，直接向KWSP和劳工部投诉\n\n自己的钱自己check\n不要等几年后才发现老板帮你“保管”了", "transcript": "你们这些做老板的可以不要做到这样嘛员工在那边做了三年EPF阴谋都没有经过最搞笑的是什么你看他配 sleep 每个月EPF照扣的但是不是扣进员工的EPF account是扣进老板的bogainEPF啊厉害马基干加起来24%加码EIS 说一个月你吃员工26%等同于你请四个人直接省掉一个人的薪水所以各位打工的不要以为你的配 sleep 用EPF deduction就代表你的老板有帮你叫不然像我这个顾客这样要Apply loan的时候需要用到EPF statement才hold之后决要check的话很简单吧了EPF G7KWSPI accountSorso EIS就去Bergassel Breed Huffing App", "brk": "Hook类型: 痛点直击\n结构: 揭露黑心老板扣EPF不交的内幕 → 教导如何用App自查 → 呼吁维权与防范\n为什么火: 戳中打工族切身利益与对老板的不信任，信息差极大且实用\n改编角度: 结合贷款被拒的真实案例，教华人打工族如何通过查EPF防范财务危机并顺利借贷", "my": "现在欠卡债的人都很会玩。\n如果你每个月看着payslip扣钱，但从来没有自己去check过，记得把这条视频看完。\n我遇到的顾客通常都是中这3个陷阱。\nD1，以为有扣就是有交。\n有些顾客每个月看到payslip上面有EPF deduction，就以为老板肯定有乖乖帮自己缴进去。\n直到要申请personal loan的时候，需要用到EPF statement，才发现原来几年的记录根本不对。\n到那个时候，整个loan申请直接被hold住，现金流当场卡死。\nD2，忽略利息一直滚。\n有些顾客面对卡债问题，以为只要放着不管，或者每个月跟着min pay还就没事。\n但credit card的利息是每个月charge的，一年下来就是18%利息。\n如果不处理，卡债只会越滚越大，每个月辛苦赚来的钱白白给多利息。\nD3，乱转installment。\n有些信用卡product看似低利息，但有些offer期限很短，而且不把卡债全部转完。\n最后installment和剩余的卡债两边供，月供拉高了，还卡后通常到月中就手头紧。\n最后没有办法，只好又刷回卡用，陷入恶性循环。\n卡债就好像生病这样。\n伤风感冒这些小病可以自己去pharmacy买药吃。\n但如果你意识到状况已经不是自己一个人可以搞定，你要的不是药，而是整套治疗方案。\n目前我已经处理超过300位有卡债的顾客。\n以前有些顾客以为只要每个月盲目还多多进卡，卡债很快就会解决。\n结果却忽略了自己的cashflow，还错方式，卡债还没settle完就已经不够cash去settle别的commitment。\n用对方法以后，先看文件的checking，然后计算proposal，再brief所有的方案。\n根据顾客的budget调整每月还款金额，整合高利息的欠款，在指定时间内clear掉债务。\n先说明一下哈，我这里并不是刻意要sell什么。\n如果你本身是面对着什么问题或有什么顾虑，可以私讯给我知道。", "tags": "", "bait": false, "type": "Video", "likes": 4905, "comments": 60, "er": 51.02, "followers": 9732, "date": "2026-09-17", "url": "https://www.instagram.com/p/DdYm2XvJjI6/", "video": true, "ratio": 0, "score": 52.25, "status": "未处理", "x": 2.3}, {"id": "DfJdYlvp3t1", "tracker": "FINANCE 竞对", "competitor": "loan_superman", "caption": "我蛮敬佩 Zejun 的 年纪轻轻就达到这样的高度\n就这样离开了 真的觉得很可惜\n\n第一晚看到这个消息的时候 虽然我不认识他\n但再看到这么多酸民躲在键盘后面攻击他 而且大多数还是假账号\n真的让我整晚都睡不着\n\n我一直在想 凭什么你们一两句话就能否定人家一路走来的努力？\n\n尤其是那些根本不了解他 甚至因为这场车祸才认识他的人\n不要单凭网络上的几句 Comment 就去定义一个人\n\n希望大家多一点同理心 少一点恶意\n不要为了一时口快 就抹灭别人一路走来的努力\n\n你嘴巴爽一下 有没有想过他的父母和家人看到是什么感受？\n\n人都已经走了 就让他有尊严地离开吧\n\nRest in Peace, Zejun 🙏", "transcript": "这个videos我原本不想拍的但是我看到哲军去世过后的那些留言真的是不能答案一个人都已经不在了你不喜欢他的话静静就好啦给一点respect人家很难我注意看不起这些内人人家在世的时候你不敢直接comment因为你懂讲错话是有后果的遭遥人家人家可以请你吃绿食性现在人家不在了什么都敢讲丢你要刷存在感找个能为自己辩护的人啊还有那些一直讲诛车的就算是三梦八雅啦又怎样22 23岁能给了你48%当背门你给了起没有空开假帐号爽人的不要讲猪啦分分钟免费给你家你连油都打不起啊你可以不喜欢他你可以不认同他的赚钱模式但是改respect的时候就给一点respect人家也是有父母有家人的你在这边刷了一点存在感爽啦但是有没有想过人家父母看到是什么感受人都已经走了没有必要踩多急脚来证明自己有多厉害", "brk": "Hook类型: 痛点直击\n结构: 引入热点事件 → 批判网络暴力 → 呼吁理性同理心\n为什么火: 借势公众人物逝去的热点，直击网暴现象引发群体愤怒与共鸣\n改编角度: 结合借贷或理财争议人物，痛斥键盘侠，呼吁理性看待财富与人生抉择", "my": "现在欠卡债的人都很会玩。\n记得把这条视频看完。\n有没有发现现在很多人面对财务状况，以为只要一直转账周转就能解决问题？\n表面看起来payment record美美的，但是手头上的现金越来越少。\n其实这样的操作有3个盲点。\nD1 假象安全感。\n以为这样是在解决问题，其实只是换个地方欠钱，卡债数目一直都没变少。\nMs L roll 了3年，表面好像她在控制资金，聪明地利用不同平台周转，其实是给信用卡利息机制牵着走。\n3年后还是欠100k，本金从原本30k roll剩5k而已。\n现在只需一个失误，现金流断裂，到时min pay都还不到，就会彻底崩盘。\nD2 拖到以后再还。\nMs L的想法就是只要拖，就有机会等到奖金，加薪或更松动的时候再处理。\n但卡债利息是按月算，一个失误转不急就finance charge，算下来一年是要还18%。\n拖越久，中息的机会越大，就越难翻身。\nD3 忽略心理成本。\n长期下去只会越来越焦虑，天天在想：要不要再搬一次？要还哪张卡？\n内耗久了搞到生活质量下降，Ms L也因为心理压力影响工作效率，错过了升职的机会。\nTNG搬债并非解决方案，只是延迟爆炸，真正的解决方式是降低利息加指定还款期限，才有真正结束的一天。\n【剪辑:这里放案例画面】\n好像Ms L的case，她有稳定收入，卡债一直都有还至少min pay，最重要是她有心要解决。\n最后Ms L采用personal loan的方案，达到利息减半有效还款、调低供期增加每月现金流、杠杆一笔cash on hand的三大好处。\n以前 Ms L 盲目地在不同银行之间搬债，卡债越滚越大，整个人焦虑到影响工作和升职。\n现在 Ms L 用对方式重组债务，卡债每个月有规划地扣除，现金流变松动，生活也恢复正常。\n先说明一下哈，我这里并不是刻意要sell什么。\n其实你本身是面对着什么问题或有什么顾虑？可以给我知道。\n卡债欠久不是你的错，只是没用对方式解决而已。\n只有在承担责任中，我们才能真正掌握理财的智慧。", "tags": "", "bait": false, "type": "Video", "likes": 4143, "comments": 159, "er": 44.2, "followers": 9732, "date": "2026-10-31", "url": "https://www.instagram.com/p/DfJdYlvp3t1/", "video": true, "ratio": 0, "score": 47.47, "status": "未处理", "x": 2.1}, {"id": "DeyrCJ3pLwY", "tracker": "FINANCE 竞对", "competitor": "loan_superman", "caption": "We need God more than ever", "transcript": "飛機達到差點昏迷喜歡大相交和美國老講要做到Brown Slave的16歲少年竟然砍老是還要開買直播真的藍要贏一個只剩Royalty家庭的孩子怎麼會揉揉到這樣的下場他家庭什麼都不確但是父母要離婚爸爸沒有經過父親的責任他自己沒有朋友成你網絡覺得沒有人理解他覺得全世界對不起自己甚至內心想做美國老覺得自己的宗教是假的我覺得這件事真的反映出家庭教育有多重要你家裡有錢有怎樣如果一個小孩子沒有一個強大的父母去引導他教他什麼是對錯聆聽他的內心再加上有沒有朋友最後他只會在網上尋找認同跟他聊天的只有Sexualize他的Gaylo網上什麼東西都有當一個心智不成熟的小孩子什麼亂七八糟的東西都可以接觸到的時候任何東西都可以變流曲任何東西都可以變成暴力的垂花劑一個人不可以太寂寞每天只對著電腦震很容易造成心理流曲多關心身邊你覺得有需要陪伴的人當然宗教信仰也很重要我覺得我們現在進入了一個比任何時候都更需要宗教信仰的時代", "brk": "Hook类型: 痛点直击\n结构: 现实悲剧切入 → 分析家庭教育缺失 → 引申网络环境隐患 → 呼吁关注与信仰\n为什么火: 借社会热点事件深度剖析家庭教育与心理健康，引发家长强烈的焦虑共鸣\n改编角度: 探讨父母理财观念或负债对下一代心理的毁灭性影响，直击华人父母痛点", "my": "现在欠卡债的人都很会玩。\n记得把这条视频看完。\n你以为只要卡刷爆了，多申请几张卡来回倒腾就能撑过去。\n觉得只要payment record美美的，手头现金少一点也没有关系。\n其实这样的操作有3个盲点。\nD1 假象安全感。\n以为一直在搬债就是聪明周转，其实是给信用卡利息机制牵着走。\n卡债数目一直都没有变少，只是换个地方继续欠钱。\n现在只需一个失误现金流断裂，到时min pay都还不到就会彻底崩盘。\nD2 拖到以后再还。\n想法只要拖到有奖金或加薪的时候再来处理。\n但卡债利息是按月算，一个失误转不急就finance charge，一年下来是要还18%。\n拖越久中息的机会越大，就越难翻身。\nD3 忽略心理成本。\n长期下去只会越来越焦虑，天天在想今天要搬哪一张卡。\n内耗久了搞到生活质量下降，甚至因为心理压力影响工作效率。\nTNG搬债并非解决方案，只是延迟爆炸。\n真正解决方式是降低利息加指定还款期限，才有真正结束的一天。\n目前我已经处理超过300位有卡债的顾客。\n发觉就算收入高每个月有本事还很多钱进卡，但还是清不掉。\n以前 Ms L 欠3间bank总数100k，用30k本金一直roll，每月先还A再withdraw出来还B。\n表面看起来payment record美美的，但手头上的现金越来越少。\nroll了3年本金从原本30kroll剩5k而已，最后还是欠100k。\n现在Ms L采用personal loan的方案，利息减半有效还款，调低供期增加每月现金流。\n卡债欠久不是你的错，只是没用对方式解决而已。\n如果你目前开债只欠那几千块，可以看回我上条视频自己用budget加上schedule去解决。\n但如果你欠的是RM20,000、RM30,000以上，连利息都还不完，那你需要的整套治疗方案。\n如果你目前面对着卡债问题，可以私讯我了解你的财务状况。\n我会看你的文件做checking再计算proposal，安排一对一咨询。\n只有在承担责任中，我们才能真正掌握理财的智慧。", "tags": "", "bait": false, "type": "Video", "likes": 3244, "comments": 35, "er": 33.69, "followers": 9732, "date": "2026-10-22", "url": "https://www.instagram.com/p/DeyrCJ3pLwY/", "video": true, "ratio": 0, "score": 34.41, "status": "未处理", "x": 1.5}, {"id": "DeG8uG1JQa_", "tracker": "FINANCE 竞对", "competitor": "loan_superman", "caption": "PT：谢谢大哥赞助 🙏🏻", "transcript": "接錢給老婆龍兄 最後老婆送她一定留一毛你們也懂 女人生了孩子過後 還會邊鬆邊瞎吹她老婆就是這樣 生了過後一直很沒有自信最近不是很流行網紅大團去中國振興的嗎這個男人就是生情啊 博士納倫sponsor老婆兩粒性的球這個時候我還覺得哇 這跟他們管帶 會投資在自己的玩具身上結果 龍完了過後哈 百登來了一個十多年沒有運動的女人突然間跟人家講要去金一開始還沒有想像多運動過後 屁股邊敲也是她自己享受的嘛但是後來 老婆越去越懶惰從一個禮拜的兩天和PT連變成一個禮拜十五天然後衣服越喘越短性的球每次放半年出來這個時候她開始覺得頭上這樣有點輕輕這樣了後來真的給她看到老婆發生裁照給PT她去質問老婆 老婆還跟她講老公 這個是progress photo吧給PTcheck身材的結果越check下去發現原來她自己sponsor的球早就給PT玩到不要玩了所以男人啊老婆要龍熊可以但是龍完了過後跟你講要去金的先看清楚那個PT是男的還是女的", "brk": "Hook类型: 痛点直击\n结构: 出资整容/健身 → 沉迷私教出轨 → 发现聊天记录翻车\n为什么火: 结合医美健身与出轨狗血剧情，精准踩中男性对伴侣背叛的焦虑\n改编角度: 拍理财反思：千万别盲目给伴侣过度消费，搞不好资金全变成别人头上的草原", "my": "现在的经济状况，欠卡是很正常的事。记得把这条视频看完。\n\n我遇到这位顾客，Ms L欠3间bank，总数100k。她就用30k的本金一直roll。每月先还Bank A，再withdraw出来还Bank B，再搬去Bank C… 就这样，维持了3年。\n\n表面看起来payment record美美的但是她发觉手头上的现金越来越少，有没有觉得很熟悉？如果是的话记得把这条视频看完。\n\n其实这样的操作有3个盲点。\n\nD1 假象安全感。以为这样是在解决问题，其实就换个地方欠钱，卡债数目一直都没变少。Ms L roll 了3年，表面好像她在控制资金，聪明地利用不同平台周转，其实是给信用卡利息机制牵着走。3年后还是欠100k。本金从原本30kroll剩5k而已。现在只需一个失误，现金流断裂，到时min pay都还不到，就会彻底崩盘。\n\nD2 拖到以后再还。Ms L的想法就是只要拖，就有机会等到奖金，加薪或更松动的时候再处理。但卡债利息是按月算，一个失误转不急就finance charge。算下来一年是要还18%。拖越久，中息的机会越大，就越难翻身。\n\nD3 忽略心理成本。长期下去只会越来越焦虑。天天在想：要不要再搬一次？要还哪张卡？内耗久了搞到生活质量下降。Ms L也因为心理压力影响工作效率，错过了升职的机会。\n\nTNG搬债并非解决方案，只是延迟爆炸。真正的解决方式是降低利息 + 指定还款期限，才有真正结束的一天。\n\n如果目前开债只欠那几千块，可以看回我上条视频如何从卡债学习自救翻身。但如果你欠的是RM20,000、RM30,000以上，连利息都还不完，那你需要的整套治疗方案。\n\n卡债就好像生病这样。伤风感冒这些小病可以自己去pharmacy买药吃。但如果你意识到状况已经不是自己一个人可以搞定，你要的不是药，而是整套治疗方案。\n\n以前Ms L每个月盲目搬债，卡债越滚越大，整个人焦虑到影响工作。找到我之后，我帮她做checking和计算，最后采用personal loan的方案。\n\n现在她的利息减半，每月供期调低，在指定期限内能clear掉债务。卡债欠久不是你的错，只是没用对方式解决而已。\n\n如果你不懂应该你处于什么状况，可以私讯联系我。我帮你review和planning，至少为债务买单也买得舒服。", "tags": "", "bait": false, "type": "Video", "likes": 2578, "comments": 84, "er": 27.35, "followers": 9732, "date": "2026-10-05", "url": "https://www.instagram.com/p/DeG8uG1JQa_/", "video": true, "ratio": 0, "score": 29.08, "status": "未处理", "x": 1.3}, {"id": "Deq7Kt1pVOu", "tracker": "FINANCE 竞对", "competitor": "loan_superman", "caption": "好奇喷的是水还是尿？\n远离飘飘", "transcript": "一個23歲三個孩子的媽媽為了賺錢養家竟然在網上賣自己彈吉他的視頻聽講他的吉他還屬於噴水的那種現在出來賣的門檻真的越來越高了以前肯脫就OK了現在還要會噴水要搞點差異一個人怎麼可以做到這樣啊賣毒品或給警察充公虧了錢要借大龍來還債然後借毒網賣賣裸照一不錯不不錯自己賣毒還要自己吸毒品還要放在糖果盒不小心給小孩子吸到差一點就死毒品真的害死人啊各位千萬不要給我碰", "brk": "Hook类型: 痛点直击\n结构: 奇闻引子 → 揭露乱象 → 恶果警示\n为什么火: 用猎奇八卦和社会丑闻制造强烈的道德批判与围观效应。\n改编角度: 结合年轻人超前消费或网贷催收乱象，警示借贷风险。", "my": "现在欠卡债的人都很会玩。\n以为卡债欠久了只是还min pay，其实很多人不知道背后还背着好几间银行的利息。\n表面看起来payment record美美的，但是她发觉手头上的现金越来越少，有没有觉得很熟悉？\n如果是的话记得把这条视频看完。\n其实很多顾客以为只要一直拼命还钱，卡债就会自己不见。\n以为只要每个月有做工，卡债总有一天会还完。\n其实这样的操作有3个盲点。\nD1 假象安全感。\n以为这样是在解决问题，其实就换个地方欠钱，卡债数目一直都没变少。\nMs L roll 了3年，表面好像她在控制资金，聪明地利用不同平台周转，其实是给信用卡利息机制牵着走。\n3年后还是欠100k，本金从原本30k roll剩5k而已。\n现在只需一个失误，现金流断裂，到时min pay都还不到，就会彻底崩盘。\nD2 拖到以后再还。\nMs L的想法就是只要拖，就有机会等到奖金，加薪或更松动的时候再处理。\n但卡债利息是按月算，一个失误转不急就finance charge。\n算下来一年是要还18%。\n拖越久，中息的机会越大，就越难翻身。\nD3 忽略心理成本。\n长期下去只会越来越焦虑。\n天天在想：要不要再搬一次？要还哪张卡？\n内耗久了搞到生活质量下降。\nMs L也因为心理压力影响工作效率，错过了升职的机会。\n【剪辑:这里放案例画面】\nMs L欠3间bank，总数100k，她就用30k的本金一直roll，每月先还Bank A，再withdraw出来还Bank B，再搬去Bank C，就这样维持了3年。\n以前以为卡债只要东拼西凑就能过关，结果利息越滚越大，现金流反而卡死在中间。\n用对方法以后，她采用personal loan的方案，直接降低利息，每个月跟着budget供期，把卡债稳稳整理好。\n先说明一下哈，我这里并不是刻意要sell什么。\n其实你本身是面对着什么问题或有什么顾虑？\n可以给我知道。", "tags": "", "bait": false, "type": "Video", "likes": 1988, "comments": 88, "er": 21.33, "followers": 9732, "date": "2026-10-19", "url": "https://www.instagram.com/p/Deq7Kt1pVOu/", "video": true, "ratio": 0, "score": 23.14, "status": "未处理", "x": 1.0}, {"id": "DfUXG6IJlPd", "tracker": "FINANCE 竞对", "competitor": "loan_superman", "caption": "照着现在的局势这样下去 你觉得 AI Hack 掉银行有可能吗？\n\n我们的国家真的 Ready 好应付这种 Cyberattack 和 Security Breach 了吗？\n\nThe Great Reset 会来吗？会不会有一种全新的 Stablecoin 取代全世界的 Currency？\n\n以上 Conspiracy Theory 纯属我个人吹水扮专家骗流量 纯属虚构 😂", "transcript": "", "brk": "Hook类型: 悬念与反常识结合\n结构: 抛出骇人金融阴谋 → 连环灵魂拷问 → 自嘲反转解密\n为什么火: 利用大厂裁员和AI焦虑引发群体恐慌，最后幽默解构卸下防备\n改编角度: 借AI黑客与数码货币威胁，切入个人资产安全与理财规划防范", "my": "现在欠卡债的人都很会玩。\n你是不是也觉得只要一直搬卡债，就能稳稳把问题拖过去？\n其实这是很多人掉进去的严重误区。\n大家总以为只要用一张卡去顶另一张卡，或者找机会转个 installment plan，表面上看起来 payment record 美美的，卡债就自然会减少。\n但真正的盲点在于，只要利息还在按月滚，每个月 18% 的 finance charge 根本没有停过。\n你以为自己在聪明的利用现金流，其实是在给信用卡利息机制牵着走，手头上的现金越来越少。\n教你三个普通人绝对做得到的自救方法。\n第一，先 set 一个每个月还卡的 budget。这个数目要供到舒服，还卡过后还可以应付其他 commitment 和日常开销。\n第二，把卡债数目、利息和 budget 输入 ChatGPT，叫它帮你 generate 一个 schedule 出来，看清楚在指定时间内怎么还完。\n第三，去 bank app 里面弄 auto debit，把过账日期 set 在出粮过后的那个星期，每个月一出粮就自动过账。\n我处理过卡债顾客 Ms L，她欠 3 家 bank 总数 100k，用 30k 本金一直 roll 维持了 3 年，表面记录很好但现金越来越少。\n以前 Ms L 盲目在不同平台周转，每天内耗焦虑，差一点错过升职机会。\n用对了债务整合方案后，她把利息减半，调低供期，在指定时间里把卡债 clear 掉。\n如果你目前面对卡债问题，想了解适合自己的债务整合方案。\n先说明一下哈，我这里并不是刻意要 sell 什么，你可以私讯我聊聊你目前面对的状况。", "tags": "", "bait": false, "type": "Video", "likes": 1956, "comments": 67, "er": 20.79, "followers": 9732, "date": "2026-11-04", "url": "https://www.instagram.com/p/DfUXG6IJlPd/", "video": true, "ratio": 0, "score": 22.16, "status": "未处理", "x": 1.0}, {"id": "DdfgJyWj-hd", "tracker": "FINANCE 竞对", "competitor": "nik.financing", "caption": "🇲🇾 Jimmy Choo 学院不教设计⁉️", "transcript": "一个把自己的名字做到全世界的人现在去一直在跟年轻人讲选学做人再学做事我最近看到一个机密处的房谈它是马来西亚人从禀内一路走到国际的舞台今天机密处这个名字已经是一个全世界的认识的品牌但是在这个房谈里面它完全没有讲自己有几成功怎样成功它反而一直在讲这两个字做人当的Professor机密处在很多年前就已经把机密处这个品牌卖掉了现在在做教育也在当了The Atelier一个混沙品牌的Creative Factor但是在它的学院里面学生第一件要学的东西不是简单设计一双鞋而是学会做人它讲人有懂得尊重别人体谅别人也不能太过小气因为如果你每天想的都是自己的利益什么东西都想拿多一点多赚一点上天哪里会给那么多利益还好处呢我觉得这句话其实蛮值得老板想一下的因为做生意我发现很多东西不是一个人都可以完成的要有员工帮你搞什么相信你把那个运力给你做生意他也讲一句我很喜欢你要懂得疼你的员工你的员工才会帮你所以一个老板离不厉害除了看他的公司可以做几大赚多少钱以外其实有多少人运力跟你一起走也是另外一种能力", "brk": "Hook类型: 身份共鸣/反常识\n结构: 引入大咖名言 → 揭秘核心观点（先做人后做事） → 升华生意与管理哲学\n为什么火: 借势马来西亚国宝级大师Jimmy Choo的格局故事，直击老板和创业者对人性与管理的痛点共鸣。\n改编角度: 结合大马老板的财商思维，拆解“如何通过善待员工和格局做大生意”切入FINANCE与财富认知。", "my": "现在欠卡债的人都很会玩。\n记得到底把这条视频看完。\n很多背着卡债的人以为，只要每个月跟着min pay还，卡债就会慢慢减少。\n其实这样只是在帮银行打工，每个月辛苦赚来的钱，大部分都白白拿去还18%的利息。\n问题到底出在哪里？\n其实卡债欠久不是你的产，只是没用对方式解决而已。\n教你一个方式，用AI帮你设定一个方案。\n首先，你需要set一个每个月还卡的budget。\n在set budget之前，你一定要切记这3点。\n是要供到舒服的数目，还卡过后还可以应付其他commitment和日常开销。\n还卡后一定不可以刷回出来。\n数目不可以少过min pay。\n接下来你可以跟着这个format，把卡债数目、利息和budget输入chatgpt。\n叫它帮你generate一个schedule出来。\n从这里已经可以看到，10k卡债每月还500，可以在24个月里面还完。\n你还可以让chatgpt整理一个excel file出来给你。\n弄出来后会是这样子的。\n只要你别理账单上的minimum payment，每月跟着定好的schedule还。\n还了不要刷，就可以轻松绕过信用卡的陷阱。\n你甚至可以把整个payment schedule自动化。\n去bank app里面弄auto debit，set好你的budget。\n过账日期set在每月due date之前，最好放在出粮过后的那个星期。\n每月出粮就自动过账。\n基本上只要自律和善用cashflow，是可以用这个方式自己解决掉卡债。\n话虽这样说，但卡债就好像生病这样。\n伤风感冒这些小病可以自己去pharmacy买药吃。\n但如果你意识到状况已经不是自己一个人可以搞定，你要的不是药，而是整套治疗方案。\n目前我已经处理超过300位有卡债的顾客。\n发觉很多顾客就算卡债才欠几千块，却可以花上1到2年时间都还不完。\n好像这位顾客，表面看起来payment record美美的，但是她发觉手头上的现金越来越少。\n她用3万的本金一直roll，每月先还这间bank再借出来还那间bank，维持了3年。\n结果卡债数目一直都没有变少，还影响了工作效率。\n以前她每天都在担心要搬去哪一张卡，内耗到生活质量下降。\n用对方法以后，她通过整套治疗方案，把利息降低，调整每个月的供款。\n最后在指定时间内把债务解决掉，现金流也变松动了。\n先说明一下哈，我这里并不是刻意要sell什么。\n如果你目前面对着卡债问题，不知道自己处于什么状况，可以私讯我。\n我们了解你的状况后，会看你的文件做checking，然后计算proposal再brief你所有的方案。\n只有在承担责任中，我们才能真正掌握理财的智慧。", "tags": "", "bait": false, "type": "Video", "likes": 2212, "comments": 11, "er": 21.75, "followers": 10220, "date": "2026-09-20", "url": "https://www.instagram.com/p/DdfgJyWj-hd/", "video": true, "ratio": 0, "score": 21.97, "status": "未处理", "x": 5.4}, {"id": "Detxw_4vuHh", "tracker": "FINANCE 竞对", "competitor": "ethansimhf", "caption": "请理性食用此视频，我将会持续为你们带来更多真实案情！", "transcript": "今天爸爸也有了現在我的人神已經受到威脅了我受到了前不足的恐嚇我又爸爸今天也有了今天爸爸也有了我怕現在這個恐嚇已經對我造成困擾而我今天已經去報案了希望警方那邊給他一個應該的教訓我第一個影片拍攝的東西你放上去只是一個評論無知的網民看到的東西是為什麼我們不救那個狗我們沒有辦法在執法的同時能夠把我的私心拿出來救這隻狗我的正事還在審上還要顧及所有執法人員合情合法合理的去執行他們的任務那麼那個當下你覺得法律跟人情能夠同一時間嗎我們是一定要把正事完成我們的人情事故後面補上在第二支視頻我們把所有的東西完整的呈現它是欠著我十個月的租金它投電長達兩年但是在第二個影片的時候卻遇到的是我對這一個印度人特薄觀眾已經產生了一個種族歧視的情緒如果你們懂什麼叫Evasion Order簡單來講就是感人的程序裡面它不可以伴走任何東西的我們還給它一點溫暖還給它拿完它東西走我們出錢我們出力我得到的就是前路主恐嚇我們整個過程裡面我們要表達的是Option PropertyGo它阻礙著執法人員執法的一個東西我們在合法程序裡面我不能把狗拿走我必須要丟回給物主讓它自己做決定狗龍已經來了它不要把它再去另外一邊它直接丟去MBS難道是我的錯嗎今天我完成了所有東西之後我已經花費了高達五位數我今天把所有東西完完整整呈現給你們都是因為要贏得你們的賀采和尊重我只是要告訴你們在我專業的知識範圍裡面我想要體現一些價值給我的觀眾期待下一集", "brk": "Hook类型: 痛点直击\n结构: 遭遇恐吓报案 → 澄清争议维护专业 → 呼吁理性期待下集\n为什么火: 真实冲突叠加委屈情绪，引发吃瓜群众强烈好奇与同情。\n改编角度: 讲述催收或财务纠纷中遭遇的委屈与威胁，突出专业与合规。", "my": "现在的经济状况，欠卡是很正常的事。\n\n目前我已经处理超过300位有卡债的顾客。发觉就算收入高，每个月有本事还很多钱进卡，但还是清不掉，问题到底出在哪里？\n\n如果一直面对卡债问题，记得把这条视频看完。\n\n我遇到的顾客通常都是中这3个陷阱。\n\nD1 过度自信自己赚钱能力。一开始以为刷了卡没还清也没关系，下个月income来了再解决也不迟。但是每月没还清的amount就中finance charge，他一直保持这样的心态，一年下来就这样还多18%利息。\n\nD2 高估自己的还卡能力。看到有机会把消费转成installment plan，想到不想就转罢了，以为低利息就没问题。但不知道转了过后供期其实已经是超出budget，结果越供越辛苦。\n\nD3 没有好好plan自己的cashflow。每个月就是盲目还多多进卡，希望可以尽快解决卡债。却不知道还错方式，卡债还没settle完就已经不够cash去 settle别的commitment了。最后只剩下一个选择，就是刷回卡。重倒覆撤，卡债越滚越大。\n\nTNG搬债并非解决方案，只是延迟爆炸。真正的解决方式是降低利息加指定还款期限，才有真正结束的一天。\n\n Ms L欠3间bank，总数100k。她就用30k的本金一直roll。每月先还Bank A，再withdraw出来还Bank B，再搬去Bank C，就这样维持了3年。\n\n表面看起来payment record美美的但是她发觉手头上的现金越来越少。最后Ms L采用personal loan的方案，成功做到利息减半，有效还款，也调低供期，增加每月现金流。\n\n其实卡债欠久不是你的错，只是没用对方式解决而已。卡债就好像生病这样，伤风感冒这些小病可以自己去pharmacy买药吃，但如果你意识到状况已经不是自己一个人可以搞定，你要的不是药，而是整套治疗方案。\n\n如果你本身是面对着什么问题或有什么顾虑，可以私讯让我知道，我可以帮你review和planning。\n\n只有在承担责任中，我们才能真正掌握理财的智慧。", "tags": "", "bait": false, "type": "Video", "likes": 7884, "comments": 93, "er": 20.6, "followers": 38730, "date": "2026-10-20", "url": "https://www.instagram.com/p/Detxw_4vuHh/", "video": true, "ratio": 0, "score": 21.08, "status": "未处理", "x": 7.9}, {"id": "DddokbTpzrd", "tracker": "FINANCE 竞对", "competitor": "loan_superman", "caption": "Cosplay 才是版本答案", "transcript": "Property Agent 保险MLM 全部給我收皮想要連入百萬 跟我把歌劇打開選cosplay 一定沒有錯這個00後 22 23歲還在讀書Intern 才做了四個月結果Hood 兩間物質都得超過三個millionMcLaren 都給了可是Bang不批因為你太年輕 Bang不敢借現在還出了一兩牛真是cosplay借的企業家現代獨立女性的標桿甚至還跟你塞命不是 叫你們創業最好直接開神rember hut不然就像他這樣Enterprise 算到最後還要給 income tax 50多千順便刻補一下你給這個 amount of income tax年收入 出略 倒退大概有260 千左右call my tax relief 應該有300 千所以我現在真的認真考慮轉行你們覺得我的形象是cosplay什麼角色然後我cosplay 過後有沒有爸爸願意 support 我六個million或者我要求不高有三四個million 我也是ok的如果有的話 記得pm我啊然後我的假髮已經在屏東都下大年了現在已經坐著船過這來", "brk": "Hook类型: 反常识\n结构: 现象吐槽 → 真实案例 → 财务反算 → 幽默收尾\n为什么火: 用年轻人Cosplay年入百万的荒诞现象制造强烈的反差与猎奇感\n改编角度: 借贷或理财痛点切入，盘点各行各业看似光鲜实则资金周转困难的扎心真相", "my": "现在欠卡债的人都很会玩。\n有没有觉得很熟悉？\n如果你一直面对卡债问题，记得把这条视频看完。\n目前已经处理超过300位有卡债的顾客。\n发觉有些人以为只要每个月有本事还很多钱进卡，卡债自然就会清掉，表面看起来payment record美美的，但问题到底出在哪里？\nD1 - 过度自信自己赚钱能力。\n一开始以为刷了卡没还清也没关系，下个月income来了再解决也不迟。\n但是每月没还清的amount就中finance charge。\n他一直保持这样的心态，一年下来就这样还多18%利息。\nD2 - 高估自己的还卡能力。\n看到有机会把消费转成installment plan，想到不想就转罢了，以为低利息就没问题。\n但不知道转了过后供期其实已经是超出budget，结果越供越辛苦。\nD3 - 没有好好plan自己的cashflow。\n每个月就是盲目还多多进卡，希望可以尽快解决卡债。\n却不知道还错方式，卡债还没settle完就已经不够cash去settle别的commitment了。\n最后只剩下一个选择，就是刷回卡，重倒覆撤，卡债越滚越大。\n・Ms L欠3间bank，总数100k。\n・她就用30k的本金一直roll。\n・每月先还Bank A，再withdraw出来还Bank B，再搬去Bank C。\n【剪辑:这里放案例画面】\n以前Ms L就是这样维持了3年，表面看起来payment record美美的，但是她发觉手头上的现金越来越少。\n现在 Ms L 采用 personal loan 的方案，卡债利息降低，供期调整得更舒服，每个月按照计划还款。\n先说明一下哈 我这里并不是刻意要sell什么。\n其实你本身是面对着什么问题或有什么顾虑？\n可以给我知道。\n私讯我了解适合你的债务整合方案。\n只有在承担责任中，我们才能真正掌握理财的智慧。", "tags": "", "bait": false, "type": "Video", "likes": 1665, "comments": 71, "er": 17.84, "followers": 9732, "date": "2026-09-19", "url": "https://www.instagram.com/p/DddokbTpzrd/", "video": true, "ratio": 0, "score": 19.3, "status": "未处理", "x": 0.8}, {"id": "Degq8HVpx5l", "tracker": "FINANCE 竞对", "competitor": "loan_superman", "caption": "吃个饭都能吵到种族问题，Malaysia 几时才能真正团结？🇲🇾", "transcript": "华洋的Menu不放埋文Racist Record但是很搞笑的我DFC的MenuFried ChickenGarlic SauceWe Potato全部英文來的怎麼這件又沒有問題還是Racist不Racist是看老闆是什麼輔社來決定的現在不只是真資人無險搞對立就連普通人也一直拿這些東西來亂搞了這樣下去Malaysia要進步", "brk": "Hook类型: 痛点直击\n结构: 现象吐槽 → 抛出双标矛盾 → 升华社会焦虑\n为什么火: 踩中马来西亚多民族敏感痛点，引发群体共鸣与评论区站队热潮\n改编角度: 借用双标现象吐槽华人申请贷款时遭遇的不公审核标准，引发群体共鸣", "my": "现在欠卡债的人都很会玩。\n表面看起来payment record美美的，但是她发觉手头上的现金越来越少，有没有觉得很熟悉？\n如果你一直面对卡债问题，教你一个方法，把问题解决掉。\n目前我已经处理过有卡债的顾客，发觉有些顾客就算卡债才欠几千块，却可以花上好一段时间都还不完。\n如果你也是这样，记得把这条视频看完。\n我遇到的顾客通常都是中这3个陷阱。\nD1就是跟着min pay还。\nmin pay的算法是卡债的5%，当你每月就算跟着min pay还，卡债也会慢慢减少时，每月账单显示的min pay也会越来越少。\n但其实这样会拖长了还款期限。\n而credit card的利息是每个月charge的，一年下来就是18%利息，就这样每月还进去辛苦钱白白给多利息。\nD2就是还了了又刷。\n利息已经够kaw了，还进去的钱扣掉利息后没剩多少来解决母金而已。\n如果有刷回出来用，会是没完没了的事情，恶性循环。\nD3就是乱转installment。\n有些credit card product是低利息，但有些offer期限很短，而且不一定能把卡债全部转完。\n最后installment和剩余的卡债两边供，月供拉高了，还卡后通常到月中就手头紧，最后还是刷回卡用。\n以前的顾客 Ms L，欠3间bank，总数100k。\n她就用30k的本金一直roll，每月先还Bank A，再withdraw出来还Bank B，再搬去Bank C，就这样维持了3年。\n表面看起来payment record美美的，但是她发觉手头上的现金越来越少。\n3年后还是欠100k，本金从原本30kroll剩5k而已。\n现在只需一个失误，现金流断裂，到时min pay都还不到，就会彻底崩盘。\nTNG搬债并非解决方案，只是延迟爆炸。\n真正的解决方式是降低利息加指定还款期限，才有真正结束的一天。\n先说明一下哈，我这里并不是刻意要sell什么。\n如果你本身是面对着什么问题或有什么顾虑，可以给我知道。\n至少我这里了解了可以给到相对中肯的advise，或者在proposal上做调整。\n只有在承担责任中，我们才能真正掌握理财的智慧。", "tags": "", "bait": false, "type": "Video", "likes": 1496, "comments": 56, "er": 15.95, "followers": 9732, "date": "2026-10-15", "url": "https://www.instagram.com/p/Degq8HVpx5l/", "video": true, "ratio": 0, "score": 17.1, "status": "未处理", "x": 0.7}, {"id": "DfjqHMgpiMp", "tracker": "FINANCE 竞对", "competitor": "loan_superman", "caption": "回家咯bossku", "transcript": "Politics是一個很神奇的東西在馬來西亞Charl Marrige可以合法申請但是Post Malone下次要來開演唱會可能連申請都過不到一個涉及200億金融籌文的人近來有人籌款5000萬讓他回家講完馬來西亞講美國一個投票不需要ID的州Microdyn Special ID16歲不可以埋怨卻可以合法拿Hormone變性一個口號上喊American first的總統政策上卻是Israel first", "brk": "Hook类型: 反常识\n结构: 政治奇观热点 → 引出马来西亚金融丑闻 → 对比美国荒诞现状\n为什么火: 用犀利时事混剪辛辣讽刺，强烈的荒诞感激发了网民的情绪共鸣和吐槽欲。\n改编角度: 盘点大马近期离谱的金融与贷款政策内幕，用犀利视角切入直击借贷痛点。", "my": "现在的经济状况，欠卡是很正常的事。记得把这条视频看完。\n\n有些顾客就算每个月按时还钱，卡债却好像永远清不掉，问题到底出在哪里？\n\n表面看起来payment record美美的，但其实你一直被利息牵着走。\n\n其实这样的操作有3个盲点。\n\nD1 假象安全感。以为这样是在解决问题，其实就换个地方欠钱，卡债数目一直都没变少。用不同的平台周转，其实是给信用卡利息机制牵着走。现在只需一个失误，现金流断裂，到时min pay都还不到，就会彻底崩盘。\n\nD2 拖到以后再还。想法就是只要拖，就有机会等到奖金加薪再处理。但卡债利息是按月算，一个失误转不急就finance charge，一年下来是要还18%。拖越久中息机会越大，就越难翻身。\n\nD3 忽略心理成本。长期下去只会越来越焦虑，天天在想是要还哪张卡。内耗久了搞到生活质量下降，甚至影响工作效率，错过了升职的机会。\n\n卡债就好像生病这样。伤风感冒这些小病可以自己去pharmacy买药吃。但如果你意识到状况已经不是自己一个人可以搞定，你要的不是药，而是整套治疗方案。\n\n目前我已经处理超过300位有卡债的顾客。我遇到这位顾客，Ms L欠3间bank，总数100k。她就用30k的本金一直roll，维持了3年，表面看起来payment record美美的但是她发觉手头上的现金越来越少。\n\n【剪辑:这里放案例画面】\n\nMs L有稳定收入，卡债一直都有还至少min pay，最重要是她有心要解决。最后她采用personal loan的方案，达到利息减半有效还款，调低供期增加每月现金流，也有需要的话杠杆一笔cash on hand。\n\nTNG搬债并非解决方案，只是延迟爆炸。真正的解决方式是降低利息加指定还款期限，才有真正结束的一天。\n\n先说明一下哈，我这里并不是刻意要sell什么。如果你目前面对着卡债问题，可以私讯我把你的状况让我知道。\n\n只有在承担责任中，我们才能真正掌握理财的智慧。", "tags": "", "bait": false, "type": "Video", "likes": 1422, "comments": 8, "er": 14.69, "followers": 9732, "date": "2026-11-10", "url": "https://www.instagram.com/p/DfjqHMgpiMp/", "video": true, "ratio": 0, "score": 14.86, "status": "未处理", "x": 0.6}, {"id": "DfHoUJwJF38", "tracker": "FINANCE 竞对", "competitor": "loan_superman", "caption": "把赌的坚持用来做其他东西 包成功的✊", "transcript": "你IG看到的東西全部都是假的前段時間有一個顧客在IG找到我我點進去看Bofoqana有點東西Pose東西全部很真能量什麼企業價分享成功人士語錄窮人找藉口富人找方法然後2002年了跟我講要借錢做生意我心想哇 這個人年紀輕輕將有上進行很不錯下結果BankSteam那三個來都往Transaction一大堆而且不是偶爾玩那種是一直進一直進工錢約投金不打半個月就滑到完所以有些人看這樣多成功卻但是還沒有成功是有原因的但是也要感謝這些人不然我的顧客從哪裡來", "brk": "Hook类型: 反常识揭秘\n结构: 戳破IG虚假人设 → 曝光真实客户赌博败家 → 讽刺借钱创业借口\n为什么火: 撕开成功学伪装，用真实反转案例和辛辣吐槽引发强烈共鸣与转发。\n改编角度: 盘点借钱做生意却拿去网赌的真实案例，警示粉丝理财先戒赌。", "my": "现在欠卡债的人都很会玩。\n你滑IG时看到很多人天天晒名车、晒生活、晒名表，以为对方收入很高，结果私底下其实背着好几间银行的债。\n有没有觉得很熟悉？\n如果你一直面对卡债问题，记得把这条视频看完。\n很多人以为只要表面看起来payment record美美的，银行就会一直借，生意就能继续做大。\n其实这样的操作有3个盲点。\nD1 假象安全感。\n以为这样一直在不同平台周转是在解决问题，其实就换个地方欠钱，卡债数目一直都没变少。\nMs L roll 了3年，表面好像她在控制资金，聪明地利用不同平台周转，其实是给信用卡利息机制牵着走。\n3年后还是欠100k，本金从原本30k roll剩5k而已。\n现在只需一个失误，现金流断裂，到时min pay都还不到，就会彻底崩盘。\nD2 拖到以后再还。\nMs L的想法就是只要拖，就有机会等到奖金，加薪或更松动的时候再处理。\n但卡债利息是按月算，一个失误转不急就finance charge。\n算下来一年是要还18%。\n拖越久，中息的机会越大，就越难翻身。\nD3 忽略心理成本。\n长期下去只会越来越焦虑。\n天天在想：要不要再搬一次？要还哪张卡？\n内耗久了搞到生活质量下降，Ms L也因为心理压力影响工作效率，错过了升职的机会。\nTNG搬债并非解决方案，只是延迟爆炸。\n真正的解决方式是降低利息加指定还款期限，才有真正结束的一天。\n以前Ms L用30k的本金一直roll，每月先还Bank A，再withdraw出来还Bank B，再搬去Bank C，维持了3年。\n表面看起来payment record美美的，但是她发觉手头上的现金越来越少。\n现在她采用personal loan的方案，达到利息减半、调低供期、增加每月现金流这三大好处。\n先说明一下哈，我这里并不是刻意要sell什么，而是留意到你目前的卡债面对的是18%利息的状况。\n其实你本身是面对着什么问题或有什么顾虑？\n可以给我知道。", "tags": "", "bait": false, "type": "Video", "likes": 1236, "comments": 24, "er": 12.95, "followers": 9732, "date": "2026-10-30", "url": "https://www.instagram.com/p/DfHoUJwJF38/", "video": true, "ratio": 0, "score": 13.44, "status": "未处理", "x": 0.6}, {"id": "DewEaWIJK2Q", "tracker": "FINANCE 竞对", "competitor": "loan_superman", "caption": "当 Political correctness 比 critical thinking 更重要的时候，谁喊得最大声，谁就代表正义🤡\n\n法国、英国、德国、比利时、加拿大都沦陷，日本也on the way\n\n善意的口号，真的能代替现实的政策吗？", "transcript": "不是講法國的學生peaceful protest man怎麼這些人的樣子啊 這樣不像學生然後看那些國旗又不用什麼國家的住入院會非常是什麼原因啊小弟我的看法啦今天歐洲會有這樣子的局面是因為大多數人的political view都是從tiktok這個地方學回來的不然就是看什麼Billy EilishTaylor Swift這個celebrity在講什麼Free PalestineOpen borderHuman rightBlack Lives MatterLGBTQIA Plus名字越含越長人家含什麼全部人就跟著含什麼但這些口號背後的政策是怎樣有什麼代價根本沒有人認真去想過我覺得現在radical life最大的問題啊就是他們很喜歡站在道德的高低他們含的口號啊全部很好聽的哦Free PalestineBrandon support genocideBlack Lives MatterBrandon就是white supremacistRedfield G welcomeBrandon就是racistTax the richBrandon就是支持capitalist壓榨窮人Trans rights不然你就是transphobic只要你有不同opinion就馬上給你label", "brk": "Hook类型: 痛点直击\n结构: 现象观察 → 犀利批判 → 价值升华\n为什么火: 敢于直言社会敏感现象，引发强烈共鸣与站队评论。\n改编角度: 聊聊大家盲目跟风买理财/网红投资建议，忽视风险的盲从心态。", "my": "现在欠卡债的人都很会玩。\n记得把这条视频看完。\n很多人觉得，每个月跟着min pay还，卡债就会慢慢变少。\n或者以为把消费转去installment plan，利息低一点就没事。\n其实这些想法都有3个盲点。\nD1 假象安全感。\n以为每月有还min pay，或者有转installment，就是在认真解决问题。\n其实credit card的利息是每个月charge的，一年下来就是18%利息。\n你每月还进去的辛苦钱，很多都白白拿去给利息了。\nD2 拖到以后再还。\n有些人还了又刷，利息已经够kaw了。\n还进去的钱扣掉利息后，没剩多少来解决母金。\n结果卡债越滚越大，陷入没完没了的恶性循环。\nD3 忽略心理成本。\n没有好好plan自己的cashflow。\n以为盲目多还进卡就行，结果不够cash去settle别的commitment。\n最后月中手头紧，只剩下一个选择，就是刷回卡用。\n卡债就好像生病这样。\n伤风感冒这些小病可以自己去pharmacy买药吃。\n但如果你意识到状况已经不是自己一个人可以搞定，你要的不是药，而是整套治疗方案。\n先说明一下哈，我这里并不是刻意要sell什么。\n而是留意到你目前的卡债面对的是18%利息的状况。\n我们这里的方案，主要能做到几个事情。\n整合高利息的信用卡欠款。\n利息从18%降低至8%或以下。\n根据你的budget，调整每月还款金额，减轻每个月的供款压力。\n每个月按照计划还款，在指定的时间里面clear掉你的债务。\n信用卡保持active，credit scoring保持良好。\n目前市面上有的方案我都有提供。\n主要还是看回顾客需要些什么，我才customise适合顾客的方案。\n其实你本身是面对着什么问题或有什么顾虑？\n可以给我知道。\n至少我这里了解了可以给到相对中肯的advise，或可以based on你最latest的状况在proposal上做调整。\n只有在承担责任中，我们才能真正掌握理财的智慧。", "tags": "", "bait": false, "type": "Video", "likes": 615, "comments": 102, "er": 7.37, "followers": 9732, "date": "2026-10-21", "url": "https://www.instagram.com/p/DewEaWIJK2Q/", "video": true, "ratio": 0, "score": 9.46, "status": "未处理", "x": 0.4}, {"id": "Dfbyhq4pKU3", "tracker": "FINANCE 竞对", "competitor": "loan_superman", "caption": "暂时不用lut\n全世界 Cybersecurity人员加油✊我们老百姓全靠你们了🥹", "transcript": "如果明天你打開你的Banking App發現到裡面的錢全部不見到啊你會怎麼辦昨晚Bank Royal要傳出被Hack甚至有人在大貴 App 開價只需要2000美金就能買掉銀行的Server Access很多人看到這裡會輪但是我跟你講先不要輪就算銀行真的中hack你的錢不一定會不見了幾個原因第一錢是沒有這樣容易洗出來的Banking 時生不像Crypto可以開幾千個Moled把錢轉來轉去銀行的錢要弄出來你要有人頭戶口收錢或者通過International 傳說再有不同的方法掏線而且這些Transaction都有記錄每個國家的銀行都有自己的Monitoring System錢一層一層的轉每一層的機會中攔截Bank Royal這種HackTargeted不是把你的錢轉走真正目的Ideus 賣Access給販置集團不然就勒索銀行再不然就投資到哪去賣第二如果是小損失比如說一件銀行有100個比他被Hack幾百M他恐難分一定兔錢給你的他還要繼續做生意的嗎不偶遷那你還有人敢給他生意做第三Malaysia有PIDM這個東西但是注意PIDM是保銀行倒閉關鍵詞倒閉不是被Hack就直接賠你錢而且冷知識有些銀行是沒有PIDM的比如說Bank Royal VS An Agro Bank這些大家看到這裡也不要心急重新Bank把全部錢給抓出來但是有幾個東西還是可以做的第一分三風險不要把全部錢放在同一間銀行然後搬帶搬帶選銀行什麼銀行的Cyber Security看起來比較好什麼銀行的比較差大家可以多留意最近的新聞自己做功課第二最好準備三個月的Emergency放在線境萬一真的銀行中Hack需要時間去Recover的時候至少還有錢吃飯", "brk": "Hook类型: 痛点直击+恐慌预警\n结构: 抛出骇客攻击银行假新闻 → 辟谣并解释钱不会丢的原因 → 给出防范与应对的具体建议\n为什么火: 紧跟网络安全热点，利用大众对财产安全的焦虑，提供专业且安抚人心的干货\n改编角度: 针对FINANCE领域，可借近期金融诈骗热点，教用户如何保障账户安全与分散资金风险", "my": "现在欠卡债的人都很会玩。\n如果你一直面对卡债问题，记得把这条视频看完。\n我遇到的顾客通常都是中这3个陷阱。\n第一，就是跟着min pay还。\nmin pay的算法是卡债的5%。\n当你每月就算跟着min pay还时，卡债也会慢慢减少，每月账单显示的min pay也会越来越少。\n但其实这样会拖长了还款期限。\n而credit card的利息是每个月charge的。\n一年下来就是18%利息。\n就这样每月还辛苦钱白白给多利息。\n第二，就是还了了又刷。\n利息已经够kaw了。\n还进去的钱扣掉利息后没剩多少来解决母金而已。\n如果有刷回出来用，会是没完没了的事情，恶性循环。\n第三，就是乱转installment。\n有些credit card product是低利息。\n但有些offer期限很短。\n而且不一定能把卡债全部转完。\n最后installment和剩余的卡债两边供。\n月供拉高了，还卡后通常到月中就手头紧，最后还是刷回卡用。\n卡债就好像生病这样。\n伤风感冒这些小病可以自己去pharmacy买药吃。\n但如果你意识到状况已经不是自己一个人可以搞定，你要的不是药，而是整套治疗方案。\nMs L欠3间bank，总数100k。\n她就用30k的本金一直roll。\n每月先还Bank A，再withdraw出来还Bank B，再搬去Bank C。\n就这样，维持了3年。\n表面看起来payment record美美的，但是她发觉手头上的现金越来越少。\n最后Ms L采用personal loan的方案。\n利息减半，有效还款。\n调低供期，增加每月现金流。\n有需要的话也可以杠杆一笔cash on hand。\n以前Ms L盲目搬债，每个月在不同户口之间转来转去，结果手头现金越来越少。\n用对方法以后，卡债利息减半，供期调到舒服的数目，在指定时间里面clear掉债务。\n其实欠卡一点都可耻，好在我们还有解决事情的能力。\n如果你本身是面对着什么问题或有什么顾虑？可以给我知道。\n至少我这里了解了可以给到相对中肯的advise。", "tags": "", "bait": false, "type": "Video", "likes": 860, "comments": 12, "er": 8.96, "followers": 9732, "date": "2026-11-07", "url": "https://www.instagram.com/p/Dfbyhq4pKU3/", "video": true, "ratio": 0, "score": 9.21, "status": "未处理", "x": 0.4}, {"id": "DdYI6MVvjH8", "tracker": "FINANCE 竞对", "competitor": "ethansimhf", "caption": "拒绝内耗，把自己该做的做好。\n下次再看到那种post，\n记得，\n直接划走。", "transcript": "我在Instagram看到很多人我今天這個月賺了7萬塊超級賣很多人基本上沒有信息形成了信息差上半下半回家重複你沒有接觸過外面的世界人家知道的單碼比你多它就比你有優勢認知差是什麼認知差我們講很看天分比如說這條水的那一個死為不倒位我跟你是不同級別的你認為這個是對的你去做你虧損因為我不做我賺了這叫認知所以認知跟信息差非常重要我在Instagram看到很多人怎樣販賣角率他告訴你今天他收入多少他的Effort收多少他的投資收多少然後呈現一個很完美的數字告訴你我今天這個月賺了7萬塊超級賣那這個時候你看了你工錢7千塊你有什麼想法你一定覺得超級賣中貿塔可以賺7萬塊我只是賺7千塊是我的問題為什麼他可以這個就是角率這個就是為什麼人家要做自媒體來賣你角率所以不需要去調那些人在Instagram Facebook加跑車賺多少錢跟你一毛錢關係都沒有了你只要孤行你自己本身你能不能賺錢就好了沒有其他的人可以改變你只有你可以改變你自己", "brk": "Hook类型: 痛点直击\n结构: 揭露网上的暴富焦虑现象 → 分析认知差与信息差的本质 → 呼吁停止内耗专注自身\n为什么火: 戳中普通人看到他人暴富后的自卑与焦虑，提供情绪价值与解脱感\n改编角度: 拆解理财博主如何制造“暴富焦虑”来卖课，教粉丝建立理性投资心态", "my": "现在的经济状况，欠卡是很正常的事。\n每次刷IG看到有人post月入几万，或者卡债一下子全部settle掉，你是不是觉得很焦虑？\n看回自己户口里面，每个月出粮还要供车供房，卡债还在那边滚，你一定觉得是自己赚不够多、是自己能力有问题。\n先说明一下哈，其实这些焦虑都是因为信息差和认知差。\n有些人表面看起来payment record美美的，但其实手头上的现金越来越少。\n今天教你3个方法，不用看别人怎样，自己把cashflow管理好。\n第一，先设定一个每个月还卡的budget。\n这个budget一定要供到舒服的数目，还卡过后还可以应付其他commitment和日常开销。\n数目绝对不可以少过min pay，如果有10k卡债，min pay是500，那就从500开始设起。\n第二，善用AI或者自己列一个payment schedule。\n你可以把卡债数目、利息和budget输入chatgpt，叫它帮你generate一个schedule出来。\n从这里可以看到10k卡债每月还500，在24个月里面可以还完。\n第三，在bank app里面弄auto debit。\n把过账日期设在每月credit card due date之前，最好放在出粮过后的那个星期。\n每月出粮就自动过账，只要自律和善用现金流，是可以自己解决掉卡债的。\n话虽这样说，但卡债就好像生病这样。\n伤风感冒这些小病可以自己去pharmacy买药吃。\n但如果你意识到状况已经不是自己一个人可以搞定，你要的不是药，而是整套治疗方案。\n好像我之前遇到的一位顾客Ms L，她欠3间bank总数100k。\n她用30k的本金一直roll，每月先还Bank A，再withdraw出来还Bank B，再搬去Bank C。\n【剪辑:这里放案例画面】\n表面看起来payment record美美的，但是她发觉手头上的现金越来越少。\nMs L roll了3年，本金从原本30kroll剩5k而已，最后还是欠100k。\n以前她就是盲目自己搬债，卡债越滚越大，整天都在内耗。\n用对方法以后，她安排了一对一咨询，最后采用personal loan的方案。\n成功做到利息减半，调低供期，还有增加每月现金流。\n如果你目前面对着同样的问题，不知道自己处于什么状况，可以私讯我。\n我们可以帮你review和planning，看看到底适合哪一种方案。\n只有在承担责任中，我们才能真正掌握理财的智慧。", "tags": "", "bait": false, "type": "Video", "likes": 3394, "comments": 50, "er": 8.89, "followers": 38730, "date": "2026-09-17", "url": "https://www.instagram.com/p/DdYI6MVvjH8/", "video": true, "ratio": 0, "score": 9.15, "status": "未处理", "x": 3.4}, {"id": "DdvqnY3oLHq", "tracker": "FINANCE 竞对", "competitor": "nik.financing", "caption": "🇲🇾 不到30岁，怎样拿到300k 信用卡", "transcript": "OK 今天来讲怎样提高Credit Card Limit我今年不到30岁我的Credit Card Limit有300千我觉得这不错啦很多人都讲申请那么多Credit Card觉得这样子会让人花钱但其实我很少用这些卡申请大多数都放这一点让我跟您讲我讲一步一步申请到300千我的第一张是我买第一辆车的收损变申请的卡伦30千Public Bank给我差不多4000的Limit然后同一年我申请了MaiBank 10000的Limit两年过我换车卡伦差不多200同一年我申请有Vee它给我20Orange Bank给我25其实也不多然后再过一年Denture给我30HSBC给我25M Bank再给我差不多35今天不错今天CMV给我差不多50M Bank给我差不多100就这样子一步一步申请上去达到300千其实我申请那么多也不是讲他乱的话是因为我觉得他也算是一个等我们去吃饭像有一年我动了一个小姐的手术动不动就要20千那时候新好就Credit Card帮我转一转尤其你是做生意的话是用卡真的很方便的至少50天不用给利息可以拿分数换几票打广告出国入场开小都可以用反正它比钱多会用到的Why Not顺便理解分数如果你是做生意的话尽量多申请Credit Card定时跟Bank要求Up Limit如果Up到Limit就申请Limit一张或者是Limit个Bank我用Credit Card的两个规则第一每个一刷多少就还多少如果没有能力还就不要刷那么多第二把Credit Card当作Debica如果Debica没有钱就不要刷即使我们的Credit Card里面会跟着我们建议钱跟着提高有车带房带的话这些会更加加分", "brk": "Hook类型: 身份共鸣+数字承诺\n结构: 亮出30万额度成绩 → 拆解逐年滚雪球申请史 → 揭秘信用卡应急与做生意的好处\n为什么火: 用“不到30岁拥有30万额度”的强结果反差，击中年轻人对资金杠杆的渴望\n改编角度: 结合马来西亚理财背景，出期“如何利用多张信用卡做合法资金周转”的保姆级教程", "my": "现在欠卡债的人都很会玩。\n如果你一直面对卡债问题，教你一个免费的方法，用AI帮你设定方案，轻而易举把它解决掉。\n目前已经处理超过300位卡债顾客，发觉有些顾客就算卡债才欠几千块，却可以花上1-2年时间都还不完。\n如果你也是这样，记得把这条视频看完。\n我遇到的顾客通常都是中这3个陷阱。\n第一个陷阱，就是跟着min pay还。\nmin pay的算法是卡债的5%。\n当你每月就算跟着min pay还，卡债也会慢慢减少时，每月账单显示的min pay也会越来越少。\n但其实这样会拖长了还款期限。\n而credit card的利息是每个月charge的，一年下来就是18%利息。\n就这样每月还辛苦钱白白给多利息。\n第二个陷阱，就是还了了又刷。\n利息已经够kaw了，还进去的钱扣掉利息后没剩多少来解决母金而已。\n如果有刷回出来用，会是没完没了的事情，恶性循环。\n第三个陷阱，就是乱转installment。\n有些credit card product是低利息。\n但有些offer期限很短，而且不一定能把卡债全部转完。\n最后installment和剩余的卡债两边供。\n月供拉高了，还卡后通常到月中就手头紧，最后还是刷回卡用。\n教你一个方式，用AI帮你设定一个方案。\n首先，你需要set一个每个月还卡的budget。\n在set budget之前，你一定要切记这3点。\n是要供到舒服的数目，还卡过后还可以应付其他commitment和日常开销。\n还卡后一定不可以刷回出来。\n数目不可以少过min pay，比如现在有10k卡债，min pay是500。\n如果你只能还500，那budget就set每月RM500。\n当然能比min pay更高就更好。\n接下来你可以跟着这个format，把卡债数目，利息和budget输入chatgpt，叫它帮你generate一个 schedule出来。\n从这里已经可以看到10k卡债，每月还500，可以24个月里面还完。\n你还可以让chatgpt整理一个excel file出来给你。\n弄出来后会是这样子的。\n只要你别理账单上的minimum payment，每月跟着定好的schedule还，还了不要刷，就可以轻松绕过信用卡的陷阱。\n你甚至可以把整个payment schedule自动化。\n去bank app里面弄auto debit，set好你的budget，过账日期设置在每月credit card due date之前。\n最好放在出粮过后的那个星期，每月出粮就自动过账。\n基本上只要自律和善用cashflow，是可以用这个方式自己解决掉卡债。\n现在的经济状况，欠卡是很正常的事。\n目前我已经处理超过300位有卡债的顾客。\n发觉就算收入高，每个月有本事还很多钱进卡，但还是清不掉，问题到底出在哪里？\n以前Ms L欠3间bank，总数100k。\n她就用30k的本金一直roll。\n每月先还Bank A，再withdraw出来还Bank B，再搬去Bank C，就这样维持了3年。\n表面看起来payment record美美的，但是她发觉手头上的现金越来越少。\n现在 Ms L采用personal loan的方案，利息减半，有效还款，调低供期，增加每月现金流。\n卡债欠久不是你的错，只是没用对方式解决而已。\n如果你目前开债只欠那几千块，可以看回我上条视频如何从卡债学习自救翻身。\n但如果你欠的是RM20,000、RM30,000以上，连利息都还不完，那你需要的整套治疗方案。\n私讯把你的情况发给我，我来帮你安排一对一咨询，看看到底适合什么方案。\n只有在承担责任中，我们才能真正掌握理财的智慧。", "tags": "", "bait": false, "type": "Video", "likes": 850, "comments": 25, "er": 8.56, "followers": 10220, "date": "2026-09-26", "url": "https://www.instagram.com/p/DdvqnY3oLHq/", "video": true, "ratio": 0, "score": 9.05, "status": "未处理", "x": 2.2}, {"id": "De1y1hNkqiC", "tracker": "FINANCE 竞对", "competitor": "nik.financing", "caption": "🇲🇾信用卡定时提高limit，不然吃大亏‼️", "transcript": "如果你有Credit Card記得定時提高它的Limit不然到期又會很吃虧了其實很多人都覺得申請一兩層Credit Card給Bank看到有一個記錄就可以了Limit搞的不重要但其實你的Limit可以直接影響到你的形象特別是在跟Bank打交道的時候非常的重要我們想像一下當Bank A給你的Limit很高就代表他相信你的能力那當你有想要買車買房的時候Bank B和Bank C都看到竟然Bank A都願意相信你有那你應該是OK的啦那即使在Bank都會對你大大加分特別是在公司Apply LoL的時候第二個好處就是我們常常講的Credit Card Usage當你的Limit提高了當你的消費又保持的時候你的Credit Card Usage自然就會降低Bank又會覺得你懂得理財又在對你加分第三個就是你可以把你的Credit Card當作是一個Backup的事情在緊急需要前兩時就可以馬上set掉你的問題你的Limit越高可以解決的問題自然就越大那當這提高Limit之後就一定要記得控制好你有消費啦如果過度有消費Bank還是會對你扣分的而且Credit Card的利息真的不是開玩笑的不要亂來", "brk": "Hook类型: 痛点直击\n结构: 抛出痛点 → 阐述三大好处 → 风险提示与总结\n为什么火: 揭秘银行潜规则，打破大众对信用卡额度不重要的认知误区。\n改编角度: 针对华人爱买房买车的痛点，强调调高额度如何直接提升银行审批贷款的成功率。", "my": "现在的经济状况，欠卡是很正常的事。\n\n目前我已经处理超过300位有卡债的顾客。\n发觉很多顾客一直以为只要每个月定时提高信用卡limit，卡债问题就能轻松解决，有没有觉得很熟悉？\n如果是的话记得把这条视频看完。\n\n其实这样操作有3个盲点\n\nD1 假象安全感\n・ 以为一直提高limit是在建立很好的信用记录，觉得自己很有筹码。\n・ 其实卡债数目一直都没变少，反而在不同银行之间越滚越大。\n・ 现在只需一个失误，现金流断裂，到时min pay都还不到，就会彻底崩盘。\n\nD2 拖到以后再还\n・ 以为只要limit高，每个月转installment或者拿现金周转就没问题。\n・ 但信用卡利息是按月算，一年下来就是18%利息。\n・ 拖越久，中息的机会越大，卡债越滚越深，就越难翻身。\n\nD3 忽略心理成本\n・ 长期下去只会越来越焦虑。\n・ 天天在想：要不要再搬一次？要还哪张卡？\n・ 内耗久了搞到生活质量下降，甚至影响工作效率。\n\nTNG搬债并非解决方案，只是延迟爆炸。\n真正的解决方式是降低利息 + 指定还款期限，才有真正结束的一天。\n\n如果你的卡债只是几千块，可以看回我上条视频如何从卡债学习自救翻身。\n但如果你欠的是RM20,000、RM30,000以上，连利息都还不完，那你需要的整套治疗方案。\n\n通常这类客户我通常会安排一对一咨询再提供适合的方案。\n方案通常离不开这三大好处：\n・ 利息减半，有效还款。\n・ 调低供期，增加每月现金流。\n・ 有需要的话也可以杠杆一笔cash on hand。\n\n好像Ms L的case，她是有稳定收入，卡债一直都有还至少min pay，最重要是她有心要解决。\n最后Ms L采用personal loan的方案达到我提的3大好处。\n\n先说明一下哈 我这里并不是刻意要sell什么，而是留意到你目前的卡债面对的是18%利息的状况。\n其实你本身是面对着什么问题或有什么顾虑？ 可以给我知道。\n卡债欠久不是你的错，只是没用对方式解决而已。\n只有在承担责任中，我们才能真正掌握理财的智慧。", "tags": "", "bait": false, "type": "Video", "likes": 444, "comments": 3, "er": 4.37, "followers": 10220, "date": "2026-10-23", "url": "https://www.instagram.com/p/De1y1hNkqiC/", "video": true, "ratio": 0, "score": 4.43, "status": "未处理", "x": 1.1}, {"id": "De6tPuUmXyx", "tracker": "FINANCE 竞对", "competitor": "nik.financing", "caption": "10k 🙏🏻🫶🏻\n\n讲真的要不是市场上太多阿隆、诈骗，害到我生意被影响 我都不会想到要露脸拍影片 😂那个时候很多陌生人因为“不认识”，所以很难服务到他们，当时就有那一股冲动让我开始拍了第一个影片。那个是三年多前的事情。\n\n一开始拍的时候真的很卡，内容很干很闷，没有什么人看，那个时候也很少人拍这类型的东西，所以也没有什么人可以拿来做参考，只能自己用头脑想。也不知道哪里来的坚持，就一直做下去。\n\n后来开始有人跟我讲：“我是在小红书看到你的，不然我都不敢在网上随便找人” 、“现在太多诈骗，但看你应该OK，所以找你聊一下”  听到这些的时候 就知道这个东西我一定要继续做下去\n\n之前身边有人叫我直接买 follower 走 shortcut，幸好那个时候没有买，不然今天也不会有这份小小的成就感，有时候也遇过一些hate comment，讲有的没的 😂\n\n最后还是要感恩一开始就支持我的陌生人/顾客。那时候讲话那么卡还是愿意给我机会（我猜他们应该是要给年轻人一个机会吧 🤣）要不是有他们，我也不懂自己会不会坚持到今天\n\n谢谢你们 🫶🏻 愿大家越做越好 💪", "transcript": "", "brk": "Hook类型: 身份共鸣\n结构: 吐槽市场乱象/诈骗 → 决定露脸拍视频的初心 → 坚持三年的成长感悟\n为什么火: 真诚分享拍视频防诈骗的创业心路，建立高信任感，引发同行与客户共鸣。\n改编角度: 结合华人买房/贷款痛点，讲述自己如何靠专业和露脸打破网贷行业的信任危机。", "my": "现在的经济状况，欠卡是很正常的事。\n\n一开始做债务咨询的时候，很多陌生人因为不认识，根本不敢找我。\n大家总觉得网上的理财顾问不安全，宁愿自己硬着头皮继续撑。\n其实不是顾客不想要帮忙，而是外面太多不对的方法，把大家吓怕了。\n\n有没有觉得很熟悉？\n如果是的话记得把这条视频看完。\n\n很多人以为处理卡债一定要找外面那些花里胡哨的 agency。\n或者觉得反正每个月还能还 min pay，就放着不管等以后有钱再算。\n其实这样只会越陷越深，利息按月滚成大数目。\n\n要解决卡债，其实可以自己先用 ChatGPT 设定方案。\n首先，你要 set 一个每个月还卡的 budget。\n这个数目一定要供到舒服，还卡过后还可以应付日常开销和别的 commitment。\n接下来，把卡债数目、利息和 budget 输入 ChatGPT，叫它帮你 generate 一个 repayment schedule 出来。\n最后，去 bank app 里面弄 auto debit，把过账日期放在出粮过后的那个星期，每个月自动过账。\n\n话虽这样说，但卡债就好像生病这样。\n伤风感冒这些小病可以自己去 pharmacy 买药吃。\n但如果你意识到状况已经不是自己一个人可以搞定，你要的不是药，而是整套治疗方案。\n\n目前我已经处理超过300位有卡债的顾客。\n我遇到这位顾客，Ms L欠3间 bank，总数100k。\n她就用30k的本金一直 roll，每月先还 Bank A，再 withdraw 出来还 Bank B，再搬去 Bank C。\n维持了3年，表面看起来 payment record 美美的，但是她发觉手头上的现金越来越少。\n\n以前 Ms L 盲目一直搬债，每个月在不同平台周转，搞到自己天天焦虑内耗。\n用对方法以后，她安排了一对一咨询，采用 personal loan 的方案达到三大好处。\n不仅利息减半有效还款，还调低供期增加每月现金流，在指定时间内把债务 clear 掉。\n\n如果你本身面对着卡债问题，不知道自己处于什么状况，可以私讯我。\n我们没有任何的事前收费，先了解你的财务状况，看文件做 checking，计算 proposal 后再 brief 你所有的方案。\n只有在承担责任中，我们才能真正掌握理财的智慧。", "tags": "", "bait": false, "type": "Carousel", "likes": 283, "comments": 34, "er": 3.1, "followers": 10220, "date": "2026-10-25", "url": "https://www.instagram.com/p/De6tPuUmXyx/", "video": false, "ratio": 0, "score": 3.77, "status": "未处理", "x": 0.9}, {"id": "DfUBd5HFXIZ", "tracker": "FINANCE 竞对", "competitor": "nik.financing", "caption": "🇲🇾 Anytime Fitness 估值 16亿，怎样做到 ⁉️", "transcript": "Nate Typhine在短短期間的時間在馬來西亞開到超過100X支鍵店也是全支鍵門店最多的健身連鎖現在他們的估值高達16個億但你可能不知道他真正厲害的根本不是健身而是一盤很精密的神力真正讓它變成全世界門店最多的健身品牌的是它的商業模式我講幾個點你就會明白它到底為什麼可以開那麼快第一它的門店很小它沒有泳池沒有收納不搞話俏只放核心的器材小店就等於低租金低裝修低人力成本低的話家門商就負短得起開店的速度就更加快第二用別人的錢擴張Nate Typhine自己幾乎不出錢開店是家門商出錢一節店的投資差不多200多萬家門費另外一算總部賺家門費賺每個月的Royalty還有賣器材還有系統給家門商開得越多總部就躺著收的錢就越多第三就算你是在馬來西亞辦會員可以去全世界任何一間Nate Typhine住家附近一間公司附近一間一張卡全部都能進一個月擺成到百八塊24個小時開打的就是那種想運動但又不想花大錢又想半月能去的上半租而且講真的很多人辦了會員其實也沒有去過幾次而這一群人是他們最理想的顧客在今年8月份的時候負責整個亞洲區的Nate Typhine的老闆有在考慮把這盤生意賣掉它的估值高達16個一馬幣也就是1.6個B他們要賣的已經不是傳統種植產很難做大的一個生意而是一個可以不停的複製可以收住這個生意你覺得這盤生意值16個一馬在旁邊告訴我", "brk": "Hook类型: 身份共鸣\n结构: 揭秘知名品牌估值 → 拆解底层商业模式 → 引发商业价值思考\n为什么火: 用大众熟知的品牌暴利真相制造认知反差，满足了用户的求知欲。\n改编角度: 拆解马来西亚本地知名金融或科技公司的融资与杠杆模式，吸引创业人群。", "my": "现在的经济状况，欠卡是很正常的事。\n\n目前我已经处理有卡债的顾客。\n\n发觉就算收入高，每个月有本事还很多钱进卡，但还是清不掉，问题到底出在哪里？\n\n记得把这条视频看完。\n\n其实这样的操作有3个盲点。\n\nD1 假象安全感。\n\n以为这样是在解决问题，其实就换个地方欠钱，卡债数目一直都没变少。\n\n表面好像她在控制资金，聪明地利用不同平台周转，其实是给信用卡利息机制牵着走。\n\n现在只需一个失误，现金流断裂，到时min pay都还不到，就会彻底崩盘。\n\nD2 拖到以后再还。\n\n想法就是只要拖，就有机会等到奖金，加薪或更松动的时候再处理。\n\n但卡债利息是按月算，一个失误转不急就finance charge。\n\n算下来一年是要还18%。\n\nD3 忽略心理成本。\n\n长期下去只会越来越焦虑。\n\n天天在想：要不要再搬一次？要还哪张卡？\n\n内耗久了搞到生活质量下降，也因为心理压力影响工作效率，错过了升职的机会。\n\nTNG搬债并非解决方案，只是延迟爆炸。\n\n真正的解决方式是降低利息加指定还款期限，才有真正结束的一天。\n\n如果目前卡债只欠那几千块，可以看回我上条视频如何从卡债学习自救翻身。\n\n但如果欠的是两三万以上，连利息都还不完，那你需要的整套治疗方案。\n\n以前 Ms L 欠3间bank，总数100k。\n\n她就用30k的本金一直roll。\n\n每月先还Bank A，再withdraw出来还Bank B，再搬去Bank C。\n\n就这样，维持了3年。\n\n表面看起来payment record美美的但是她发觉手头上的现金越来越少。\n\n【剪辑:这里放案例画面】\n\nMs L roll 了3年，3年后还是欠100k。\n\n本金从原本30kroll剩5k而已。\n\n最后Ms L采用personal loan的方案达到我提的3大好处。\n\n利息减半，有效还款。\n\n调低供期，增加每月现金流。\n\n有需要的话也可以杠杆一笔cash on hand。\n\n卡债欠久不是你的错，只是没用对方式解决而已。\n\n如果你本身是面对着什么问题或有什么顾虑？\n\n可以私讯我让我知道。", "tags": "", "bait": false, "type": "Video", "likes": 367, "comments": 0, "er": 3.59, "followers": 10220, "date": "2026-11-04", "url": "https://www.instagram.com/p/DfUBd5HFXIZ/", "video": true, "ratio": 0, "score": 3.59, "status": "未处理", "x": 0.9}, {"id": "DfKUztCv2XL", "tracker": "FINANCE 竞对", "competitor": "ethansimhf", "caption": "谢谢你，让我有机会体验吊花 😳", "transcript": "好Happy birthday to youHappy birthday to youHappy birthday to youBut happy birthday to you我們可以吃飯了嗎可以吃腦了老闆 要不要吃菜了要吃菜了可以啊停我就吃菜了我一開始吃的字幕by索兰娅", "brk": "Hook类型: 痛点直击\n结构: 搞笑庆生切入 → 饭局冲突对话 → 顺势引发共鸣\n为什么火: 用幽默真实的饭局人际互动引发大众围观与共鸣。\n改编角度: 盘点华人饭局上老板劝酒或抢单的窒息瞬间，切入理财规划。", "my": "现在欠卡债的人都很会玩。\n有没有觉得每个月赚的钱不少，但手头上的现金越来越少？\n很多人以为，只要每个月有按时还钱，卡债总有一天会还清。\n其实这样操作有3个盲点。\n第一个盲点，假象安全感。\n以为每月这样搬钱周转是在解决问题，其实只是换个地方欠钱。\n卡债数目一直都没变少，反而是给信用卡利息机制牵着走。\n现在只需一个失误，现金流断裂，到时min pay都还不到，就会彻底崩盘。\n第二个盲点，拖到以后再还。\n心想只要拖下去，总有机会等到奖金或加薪的时候再处理。\n但卡债利息是按月算，一年下来是要还18%。\n拖越久，中息的机会越大，就越难翻身。\n第三个盲点，忽略心理成本。\n长期下去只会越来越焦虑，天天在想今天要还哪张卡。\n内耗久了搞到生活质量下降，甚至在工作上分心。\nTNG搬债并非解决方案，只是延迟爆炸。\n真正的解决方式是降低利息加指定还款期限，才有真正结束的一天。\nMs L欠3间bank总数100k，她用30k本金一直roll，每月先还A再搬去B再搬去C维持了3年。\n表面看起来payment record美美的，但手头上的现金越来越少。\n最后她采用personal loan的方案，做到利息减半和调低供期。\n卡债欠久不是你的错，只是没用对方式解决而已。\n如果你目前面对着同样的问题，可以私讯我了解看什么方案适合你。\n只有在承担责任中，我们才能真正掌握理财的智慧。", "tags": "", "bait": false, "type": "Video", "likes": 1095, "comments": 8, "er": 2.85, "followers": 38730, "date": "2026-10-31", "url": "https://www.instagram.com/p/DfKUztCv2XL/", "video": true, "ratio": 0, "score": 2.89, "status": "未处理", "x": 1.1}, {"id": "De9IDUBOTy-", "tracker": "FINANCE 竞对", "competitor": "ethansimhf", "caption": "信用卡真的可以救命", "transcript": "漂亮囉 我這樣有50千50千哪裡來怎樣來 如何來我不會有Cradica是你的救命道朝它在你耳門就是要用到錢的時候它可以救到你如果可以的話去申請多幾張Cradica越多越好首先你要Cradica裡面你要會算你的Cradica的Limit最好就是一隻或者是上升的如果你要會用你要用Limit最少那一張我是賬Cradica 50千我今天刷了50千買貨我下個月要還50千沒有錢 你說回來我買不出講吧這樣我這張Cradica是100千我就可以做一個Balance Transfer把這裡的Obscending的錢 Transfer過來這裡這樣就變成來講我有多一個月然後你伴隨著第三張Cradica你又可以再表演拉 拉強卡把那個Pinsome按到根底所以就會產生了我可以一直就是不用還我0%Balance Transfer我把我的Crowded Men壓到最底我會玩Cash Throw這叫先進怎樣用Cradica去尷尬這個東西聽懂嗎聽懂了 掌聲", "brk": "Hook类型: 反常识\n结构: 炫耀额度 → 拆解周转骚操作 → 总结高阶卡奴玩法\n为什么火: 揭秘高额信用卡套现与循环倒卡的灰色技巧，直击急需资金人群的投机心理。\n改编角度: 拆解正规信用卡账单分期与Balance Transfer的利弊，教华人安全合法利用免息期。", "my": "现在欠卡债的人都很会玩。\n\n很多人以为，只要在不同的银行之间拼命搬债，卡债问题就能自己解决。\n\n其实表面看起来 payment record 美美的，但手头上的现金越来越少。\n\n先说明一下哈 我这里并不是刻意要sell什么，而是留意到你目前的卡债面对的是 18% 利息的状况。\n\n教你三个普通人做得到的方法。\n\n第一，set 一个每个月还卡的 budget。\n要供到舒服的数目，还卡过后还可以应付其他 commitment 和日常开销。\n还卡后一定不可以刷回出来。\n数目不可以少过 min pay。\n\n第二，善用 ChatGPT 帮你设定方案。\n把卡债数目，利息和 budget 输入 ChatGPT，叫它帮你 generate 一个 schedule 出来。\n从这里可以看到卡债在指定时间内可以还完。\n你还可以让 ChatGPT 整理一个 excel file 出来给你。\n\n第三，在 bank app 里面弄 auto debit。\nset 好你的 budget，过账日期 set 在每月 credit card due date 之前。\n最好放在出粮过后的那个星期，每月出粮就自动过账。\n基本上只要自律和善用现金流，是可以用这个方式自己解决掉卡债。\n\n卡债就好像生病这样。\n伤风感冒这些小病可以自己去 pharmacy 买药吃。\n但如果你意识到状况已经不是自己一个人可以搞定，你要的不是药，而是整套治疗方案。\n\n以前 Ms L 欠 3 间 bank 总数 100k，用 30k 本金一直 roll 信用卡的钱，表面 payment record 美美的，其实手头现金越来越少。\n用对方法以后，她通过适合的方案，利息减半有效还款，调低供期增加每月现金流。\n\n其实你本身是面对着什么问题或有什么顾虑？\n可以给我知道。\n私讯我了解适合你的方案。\n只有在承担责任中，我们才能真正掌握理财的智慧。", "tags": "", "bait": false, "type": "Video", "likes": 1012, "comments": 8, "er": 2.63, "followers": 38730, "date": "2026-10-26", "url": "https://www.instagram.com/p/De9IDUBOTy-/", "video": true, "ratio": 0, "score": 2.67, "status": "未处理", "x": 1.0}, {"id": "De8KOuFmYzY", "tracker": "FINANCE 竞对", "competitor": "ethansimhf", "caption": "上一次办课，应该是2023年的事情了。\n\n为什么后来没有继续办？\n\n很简单，因为办课程真的不赚钱，而且很吃时间。\n\n从准备教材、安排场地、到现场分享，背后花的时间和精力，真的不是收那几百块课程费就可以cover的。\n\n而且那时候我就在想一个问题。\n\n那些没有时间、没有能力，或者因为各种原因没办法来上课的人，怎么办？\n\n难道他们就不值得学习这些知识吗？\n\n所以后来，我选择把更多时间放在短视频上。\n\n把复杂的金融知识，用最简单的方式讲出来。让更多人不用花钱，也有机会接触到这些资讯。\n\n当然，做了内容创作者这么多年，我也慢慢发现一件事。\n\n很多人喜欢分享自己有多成功、赚了多少钱、生活有多美好。\n\n但我反而比较喜欢分享真实发生的事情。\n\n包括被骗的、失败的、不合理的，甚至是一些很多人不敢公开讲的东西。\n\n因为我一直觉得，一个人的真实经历，有时候比一百句成功学更有价值。\n\n这两年，我自己也经历了不少事情。\n\n生意上的问题、人与人之间的利益纠葛、信任被辜负，甚至有些曾经很相信的人，最后让我重新认识了什么叫人性。\n\n有些事情真的很荒谬。\n\n荒谬到如果不是亲身经历，我自己都不相信会发生。\n\n但也好啦。\n\n做生意这么多年，银行教会我怎么看数字，社会教会我怎么看人。\n\n以前觉得只要你真心对人，人家自然也会真心对你。\n\n现在才知道，不一定的。\n\n你可以有原则，但不能天真。你可以选择善良，但不代表每个人都值得你信任。\n\n不过这些事情，并没有改变我当初做万能Banker的初心。\n\n我还是相信，金融知识不应该只掌握在少数人手里。\n\n尤其现在这个年代，太多所谓的Guru，包装几个成功案例，就可以卖你几千甚至上万块的课程。\n\n我不是说所有课程都没有价值。\n\n但我真的很不喜欢，有些人把赚钱讲得太容易，把风险讲得太轻。\n\n讲到好像你今天上完课，明天就可以财务自由。\n\n如果赚钱真的那么容易，哪里还有这么多人为钱烦恼？\n\n所以这次决定重新开课，收费RM899。\n\n有人问我，RM899赚钱吗？\n\n讲真的，不赚钱。\n\n但至少我希望，大家付了这RM899，学到的不只是怎样买拍卖屋，而是怎样判断风险、怎样计算成本，以及什么时候应该放弃一单看起来很划算的投资。\n\n我不需要你听完我的课，就觉得拍卖屋一定可以赚钱。\n\n我反而希望你听完之后，知道什么钱可以赚，什么钱不应该冒险去赚。\n\n因为有时候，避开一个错误的决定，比赚", "transcript": "", "brk": "Hook类型: 身份共鸣\n结构: 停办原因 → 行业黑幕 → 真实经历 → 重新开课\n为什么火: 敢于揭露行业割韭菜内幕，用真诚和反套路建立极高信任感。\n改编角度: 吐槽市面上的暴富课，强调你的付费内容只教防坑与风险管理。", "my": "现在欠卡债的人都很会玩。\n记得把这条视频看完。\n很多人以为只要每个月按时还min pay，或者用TNG在几家bank之间搬来搬去，卡债总有一天会还完。\n其实这样操作有3个盲点。\nD1假象安全感。\n以为这样在解决问题，其实只是换个地方欠钱。\nMs L欠3间bank总数100k，用30k本金一直roll了3年。\n表面上payment record美美的，现金却越来越少。\n失误一次资金链断裂就会彻底崩盘。\nD2拖到以后再还。\n以为只要拖到加薪或者拿奖金就能处理。\n但信用卡利息是按月算的，一年下来就是18%利息。\n拖越久中息机会越大，越难翻身。\nD3忽略心理成本。\n长期下来天天内耗，焦虑要还哪张卡。\nMs L也因为心理压力影响工作效率，错过了升职机会。\nTNG搬债并非解决方案，只是延迟爆炸。\n真正解决方式是降低利息加指定还款期限。\n目前我已经处理超过300位有卡债的顾客。\nMs L有稳定收入，卡债一直都有还min pay，最重要是有心要解决。\n最后她采用personal loan的方案，利息减半，调低供期，增加每月现金流。\n以前Ms L用30k本金在3家bank之间滚来滚去，每个月担心现金流断裂。\n用对方法整合后，卡债有规划地逐月还清，生活也恢复正常。\n如果你目前面对卡债问题，想了解适合的方案。\n可以私讯我了解。\n只有在承担责任中，我们才能真正掌握理财的智慧。", "tags": "", "bait": false, "type": "Carousel", "likes": 903, "comments": 19, "er": 2.38, "followers": 38730, "date": "2026-10-26", "url": "https://www.instagram.com/p/De8KOuFmYzY/", "video": false, "ratio": 0, "score": 2.48, "status": "未处理", "x": 0.9}, {"id": "Ddfr4Rvh4aP", "tracker": "FINANCE 竞对", "competitor": "ethansimhf", "caption": "用对方法，credit card就是好的。", "transcript": "你又沒有五兩車你怎樣打油全部堆在一張卡你可以省到多少錢這樣子講了你是不是覺得你已經手害了很久How to build a bankable profile的第一大前提是不要隨便申請貸款這個是一個點為什麼呢你申請Credit Card一張兩張三張都會reflect在你的 application你申請Credit Card limit也會reflectSo 不要隨便申請Credit Card不要隨便increase credit card limit你要懂你如果今天是一個打工族你能夠消化你的Credit Card limit每個月用多少錢500塊打油一張Credit Card1000塊刷Bossery裝Cashwack保險用1000塊500塊加分數我告訴你兩兩不打了每一樣東西打破打破分數你申請Credit Card你應該把它Consolidate用一張Credit Card代勞你又沒有五兩車你怎樣打油全部堆在一張卡你可以省到多少錢這樣子講了你不是覺得你已經手害了很久其實哪這麼多新用卡的目的是什麼套鏈DembiEmergencyCredit Card哪多你如果不用你放在那邊是好事來的你會有一天如果你出來做生意如果你Emergency你就懂什麼是Credit Card的好處但是不要亂用", "brk": "Hook类型: 反常识\n结构: 纠正认知误区 → 拆解底层逻辑 → 给出实操建议\n为什么火: 打破“信用卡有害”的常规认知，教普通人用卡建立银行信用。\n改编角度: 针对华人打工族，实操演示如何用一张信用卡科学消费并养高信用分。", "my": "现在的经济状况，欠卡是很正常的事。\n\n如果你一直面对卡债问题，记得把这条视频看完。\n\n很多欠卡债的顾客以为，只要一直申请新卡来周转，或者把卡债分散在不同的银行，就能暂时松一口气。\n\n其实这样的操作有3个盲点。\n\nD1 假象安全感。以为申请多几张卡或者分散欠款是在解决问题，其实只是换个地方欠钱，卡债数目一直都没变少。就像Ms L欠3间bank总数100k，用30k本金在不同的银行之间搬来搬去，表面看起来payment record美美的，但手头上的现金越来越少，最后本金从30k roll到只剩5k。\n\nD2 拖到以后再还。有些顾客的想法就是只要拖，就有机会等到奖金加薪或者更松动的时候再处理。但卡债利息是按月算，一年下来就是18%利息。拖越久中息的机会越大，就越难翻身。\n\nD3 忽略心理成本。长期下去只会越来越焦虑，天天在想今天要还哪张卡，内耗久了搞到生活质量下降，甚至影响工作效率。\n\nTNG搬债并非解决方案，只是延迟爆炸。真正的解决方式是降低利息加指定还款期限，才有真正结束的一天。\n\n先说明一下哈，我这里并不是刻意要sell什么，而是留意到你目前的卡债面对的是18%利息的状况。\n\n・第一步，整合高利息的信用卡欠款。把分散在不同地方的卡债集中处理，不再让利息继续滚大。\n\n・第二步，根据你的budget调整每月还款金额。我们要做到供到舒服的数目，还卡过后还可以应付其他commitment和日常开销。\n\n・第三步，在指定时间内clear掉债务。每个月按照计划还款，让信用卡保持active，credit scoring保持良好。\n\nMs L欠3间bank总数100k，她用30k本金一直roll了3年。最后她采用personal loan的方案，成功达到利息减半、调低供期、增加每月现金流这三大好处。\n\n以前 Ms L 盲目地在不同银行之间搬债，卡债越滚越大，整天活在焦虑里面。用对方式处理后，她每个月跟着预算稳稳还款，终于摆脱了卡债的恶性循环。\n\n其实欠卡一点都可耻，好在我们还有解决事情的能力。如果你目前面对着卡债问题，可以把你的情况告诉我，我们来做个checking和planning。\n\n只有在承担责任中，我们才能真正掌握理财的智慧。", "tags": "", "bait": false, "type": "Video", "likes": 795, "comments": 12, "er": 2.08, "followers": 38730, "date": "2026-09-20", "url": "https://www.instagram.com/p/Ddfr4Rvh4aP/", "video": true, "ratio": 0, "score": 2.15, "status": "未处理", "x": 0.8}, {"id": "DfEzB5bExwz", "tracker": "FINANCE 竞对", "competitor": "nik.financing", "caption": "🇲🇾 MBSB 定存最低RM1k而已！\n\n**这个 campaign 只到 2026年11月 31号 ！\n\n #MBSB #MBSBBank #Fixeddeposit #FD #定存", "transcript": "MBSB這個Bank你可能不太熟但相信我看完這個影片你就會對這個Bank徹底改觀因為他們最近亂小一個Program我相信很多人都不會想錯過很多人以為定存要把錢鎖很久或者是有一代比錢的人才在做結果發現MBSB的term點不是1,0001,000塊就可以開始放了而且現在的Cmd放進去6個月的利潤是4% per annum12個月是3.95% per annum7000可以選6個月或者是12個月所以如果你是存錢準備短期內要用的其實蠻適合的畢竟有比較明確的回報也能更好的規劃接下來的財務目標現在每個月1.00到行水可以先把1,000塊放進去讓它賺一點利潤他們的Debit卡現在還有和Samsung World和Google PayLink一起如果你用他們家的Debit卡來消費的話現在有更多商家配合給一會比如DGV,Dunking,Donut,E-Mount,Crisky Un,這一些如果你最近正在為下一個財務不要規劃的話可以了解一下MBSP Bank的Term Deboit C.I更多詳情可以到MBSP Bank或者MBSP website了解看看", "brk": "Hook类型: 痛点直击+数字承诺\n结构: 颠覆冷门银行印象 → 揭秘超低门槛与高收益 → 结合卡片消费权益与行动号召\n为什么火: 用RM1k低门槛和4%高回报打破了定存是有钱人才做的认知误区\n改编角度: 聚焦大马热门电子钱包或银行，主打小资金也能享受高收益的理财痛点", "my": "现在欠卡债的人都很会玩。\n目前我已经处理超过300位有卡债的顾客。\n发觉很多人的状况都是这样。\n如果你一直面对卡债问题，记得把这条视频看完。\n其实这样的操作有3个盲点。\n第一，假象安全感。\n以为这样是在解决问题，其实就换个地方欠钱。\n卡债数目一直都没变少。\n给信用卡利息机制牵着走。\n最后现金流断裂，就会彻底崩盘。\n第二，拖到以后再还。\n卡债利息是按月算。\n一个失误转不急就finance charge。\n算下来一年是要还18%。\n拖越久，中息的机会越大。\n第三，忽略心理成本。\n长期下去只会越来越焦虑。\n天天在想还要还哪张卡。\n内耗久了搞到生活质量下降。\nTNG搬债并非解决方案，只是延迟爆炸。\n真正的解决方式是降低利息加指定还款期限。\n我有遇到一位顾客Ms L。\n她欠3间bank，总数100k。\n她就用30k的本金一直roll。\n每月先还Bank A再withdraw出来还Bank B。\n维持了3年。\n表面看起来payment record美美的。\n但是她发觉手头上的现金越来越少。\n最后Ms L采用personal loan的方案。\n做到利息减半，有效还款。\n调低供期，增加每月现金流。\n也有需要的话杠杆一笔cash on hand。\n先说明一下哈，我这里并不是刻意要sell什么。\n而是留意到你目前的卡债面对的是18%利息的状况。\n其实你本身是面对着什么问题或有什么顾虑？\n可以给我知道。\n私讯了解适合你的方案。\n只有在承担责任中，我们才能真正掌握理财的智慧。", "tags": "MBSB, MBSBBank, Fixeddeposit, FD, 定存", "bait": false, "type": "Video", "likes": 208, "comments": 2, "er": 2.05, "followers": 10220, "date": "2026-10-29", "url": "https://www.instagram.com/p/DfEzB5bExwz/", "video": true, "ratio": 0, "score": 2.09, "status": "未处理", "x": 0.5}, {"id": "DfRuY8qugBy", "tracker": "FINANCE 竞对", "competitor": "ethansimhf", "caption": "投资没方向没概念？", "transcript": "很多人啊會投資一點概念的名投資Locals 投資Shop Lord是目前在房產裡面最優越的一個方向如果你要買Condo 來投資Land 來投資就沒有這麼建議比較難以一場但是如果你買Condo是因為要拿現金流Cash out 出來可以如果你的手上好的香味你而缺乏資金Wopper 第一項會是你其中一個工具可以當感的我會開一個899塊的三個小時到半天的課程我只是想要去搜登心想要學習怎樣看破房地產賺錢邏輯的朋友如果你今天有興趣想要學你可以去我的後台打個899或者是留下你的電話我的團隊會聯繫你們", "brk": "Hook类型: 痛点直击\n结构: 指出投资误区 → 给出房产最优解 → 引导私信转化\n为什么火: 直接指出常见投资盲区并给出具体资产标的，最后以低价课程和私信引导精准获客。\n改编角度: 针对华人投资者痛点，对比不同海外资产（如股票vs房产）的现金流表现，引流私域。", "my": "现在欠卡债的人都很会玩。\n很多人以为只要一直在几间bank之间搬债，卡债就会自己消失。\n其实这样做根本没有解决到问题，只是在延迟爆炸而已。\n目前我已经处理超过300位有卡债的顾客，发觉大家都踩进同样的盲点。\n教你三个方法，用对方式自己搞定卡债。\n第一步，你要设定一个每月还卡的budget。\n这个budget一定要供到舒服，还卡过后还可以应付其他commitment和日常开销。\n還卡后一定不可以刷回出来，而且数目不可以少过min pay。\n第二步，把卡债数目、利息和budget输入chatgpt。\n叫它帮你generate一个schedule出来，甚至整理一个excel file给你。\n从这里可以看到比如10k卡债，每月还500，可以在24个月里面还完。\n第三步，去bank app里面弄auto debit。\n把过账日期set在每月due date之前，最好放在出粮过后的那个星期。\n只要自律和善用现金流，是可以自己解决掉卡债的。\n话虽这样说，但卡债就好像生病这样。\n小病可以自己去pharmacy买药吃，但状况严重的时候，你要的不是药，而是整套治疗方案。\n以前顾客 Ms L 欠3间bank总数100k，用30k本金一直roll，维持了3年。\n表面看起来payment record美美的，但手头上的现金越来越少。\n现在 Ms L 采用personal loan方案，利息减半，调低供期，增加每月现金流。\n其实欠卡一点都不可耻，卡债欠久不是你的错，只是没用对方式解决而已。\n如果你目前面对卡债问题，可以私讯我了解。\n让我们帮你做 checking 并计算 proposal，把适合的方案 brief 给你。", "tags": "", "bait": false, "type": "Video", "likes": 211, "comments": 30, "er": 0.62, "followers": 38730, "date": "2026-11-03", "url": "https://www.instagram.com/p/DfRuY8qugBy/", "video": true, "ratio": 0, "score": 0.78, "status": "未处理", "x": 0.3}, {"id": "Dd3wU4ikvnk", "tracker": "FINANCE 竞对", "competitor": "emnas_loan", "caption": "通常顾客一来，第一句就问我：\n“我可以借多少？”\n\n其实银行愿意批给你的金额，\n不一定是最适合你借的金额。\n\n申请 Personal Loan 前，先看这 3 件事：\n1️⃣ 扣掉生活费和现有债务，还能负担多少月供？\n2️⃣ 月供✖️供期，整笔贷款要还多少？\n3️⃣ 这笔钱要解决什么问题，之后打算怎么还？\n\n🧮 【借钱前多算一步，日后就少一点压力】\n\n如果是你，申请贷款时 你比较注重哪个？\nA｜可以申请的Loan Amount💰\nB｜每个月要承担的月供数目 💸\n\n#马来西亚 #银行 #个人贷款 #理财 #理财规划", "transcript": "", "brk": "Hook类型: 痛点直击\n结构: 客户常见误区 → 核心真相揭秘 → 3个评估维度 → 互动选择结语\n为什么火: 直击借贷人群只关心额度不看还款能力的盲点，引发深度共鸣。\n改编角度: 结合大马华人借贷痛点，强调“能借多少”不如“月供多少”更安全。", "my": "现在欠卡债的人都很会玩。\n记得把这条视频看完。\n我遇到的顾客，常常一上来就直接问我，卡债要怎么一次过清掉。\n其实银行愿意批给你的卡债重组方案，或者你以为只要一直搬债，问题就能解决，这其实都是错的。\n申请 personal loan 之前，先看这 3 个盲点。\nD1 假象安全感。\n以为用 TNG 搬债或者拿不同 bank 的卡来回 roll 资金，表面看起来 payment record 美美的，手头上的现金却越来越少。\n你以为这样是在控制资金，其实是给 18% 利息机制牵着走，最后本金一点都没少。\nD2 拖到以后再还。\nMs L 的想法就是只要拖，等加薪或有奖金再处理，但卡债利息是按月算的。\n一个失误转不急就中 finance charge，拖越久中息机会越大，最后 min pay 都还不到，彻底崩盘。\nD3 忽略心理成本。\n长期下去天天在想还要还哪张卡，内耗久了生活质量下降，甚至影响工作效率，错过了升职机会。\nTNG 搬债并非解决方案，只是延迟爆炸。\n真正的解决方式是降低利息加指定还款期限，才有真正结束的一天。\n通常这类客户我通常会安排一对一咨询再提供适合的方案。\n方案通常离不开这三大好处。\n利息减半，有效还款。\n调低供期，增加每月现金流。\n有需要的话也可以杠杆一笔 cash on hand。\n好像 Ms L 的 case，她是有稳定收入，卡债一直都有还至少 min pay，最重要是她有心要解决。\n最后 Ms L 采用 personal loan 的方案达到我提的 3 大好处。\n先说明一下哈，我这里并不是刻意要 sell 什么。\n而是留意到你目前的卡债面对的是 18% 利息每个月还是滚着的状况。\n我们这里的方案不只是 personal loan，还有其他不一样的方案可以帮你减轻这方面的负担。\n✅ 整合高利息的信用卡欠款。\n✅ 利息从 18% 降低至 8% 或以下。\n✅ 根据你的 budget，调整每月还款金额，减轻每个月的供款压力。\n✅ 每个月按照计划还款，在指定的时间里面 clear 掉你的债务。\n✅ 信用卡保持 active，credit scoring 保持良好。\n其实你本身是面对着什么问题或有什么顾虑？\n可以给我知道。\n只有在承担责任中，我们才能真正掌握理财的智慧。", "tags": "马来西亚, 银行, 个人贷款, 理财, 理财规划", "bait": false, "type": "Carousel", "likes": 23, "comments": 0, "er": 0.41, "followers": 5563, "date": "2026-09-29", "url": "https://www.instagram.com/p/Dd3wU4ikvnk/", "video": false, "ratio": 0, "score": 0.41, "status": "未处理", "x": 1.2}, {"id": "Dfo-hAvyy7d", "tracker": "FINANCE 竞对", "competitor": "emnas_loan", "caption": "90%屋主不知道！Refinance原来有4种玩法🏠#mortgageloan #housingloan #refinancemortgage #refinance #refinanceyourhome", "transcript": "有物資的人注意啦不要一學成就想這賣物資其實還有另外一種玩法就是refinance大家好 我是Amaz今天就來分享Refinance Loom的四種玩法第一種TOP UP LUN比如說你以前買了一家物資是600千現在它的威力去到了900千這樣你就可以把原本600千的貸款跟銀行進行refinance把貸款提高到900千這樣那300千的差價你就可以CASHO拿出來用這樣LUN額貓提高了這樣你的約工當然就跟著提高了第二種比如說你以前買了一家物資是600千這樣你供到現在還剩下300千的LUN額嗎這樣LUN額的話就是可以讓你用原本600千的房貸去跟銀行做重組調整到300千的LUN額嗎這樣你每個月的供期就會跟著減少負擔就變小了囉第三種如果你現在的利息要5%而另外在銀行只需要3.5%這樣你完全可以把房貸搬下去新的銀行別小看這一點點的利息差它不只可以把你剩下好幾萬的利息還能幫你大大縮短工房值的事件第四種比如說你現在有供著車貸房貸信用卡個人貸款等等薪水剛好勉強夠Cover全部的約工買壓力很大有時候會傳不過去這樣通過這個deckom說就是可以把你全部的債務放進去這個房貸裡面用這房貸比較低的利息去還完你全部的債務比如Bossner倫或者信用卡等等因為拉長到整個還款的時差就你每個月整體的供期也會跟著減少所以只要用對老方法物質不只是住的地方也可以幫你做好人生的財務規劃", "brk": "Hook类型: 数字承诺 + 痛点直击\n结构: 抛出90%不知晓的痛点 → 逐一列举4种玩法（套现/重组/转贷/整合债务） → 升华财务规划\n为什么火: 信息密度极高，直击房主资金周转与降息减负的刚需痛点，干货十足\n改编角度: 结合本地最新房贷利率政策，主打“一张表看懂房贷重组”的视觉化对比改编", "my": "现在的经济状况，欠卡是很正常的事。\n有没有觉得很熟悉？\n表面看起来payment record美美的但是她发觉手头上的现金越来越少。\n以为卡债欠久了自己会慢慢变少。\n以为每个月跟着min pay还就可以顺利settle掉。\n其实这样的操作有3个盲点。\nD1假象安全感。\n以为每月还min pay是在解决问题。\n其实卡债利息是按月算，一年下来就是18%利息。\n辛苦钱就这样白白给多利息。\nD2还了了又刷。\n利息已经够kaw了。\n还进去的钱扣掉利息后没剩多少来解决母金。\n刷回出来用就是没完没了的事情。\nD3乱转installment。\n转了过后供期其实已经是超出budget。\n结果越供越辛苦。\n最后月中手头紧还是刷回卡用。\n教你一个方式，用AI帮你设定一个方案。\n首先，你需要set一个每个月还卡的budget。\n是要供到舒服的数目。\n还卡过后还可以应付其他commitment和日常开销。\n还卡后一定不可以刷回出来。\n数目不可以少过min pay。\n比如现在有10k卡债，min pay是500。\n如果只能还500，那budget就set每月RM500。\n接下来你可以把卡债数目、利息和budget输入chatgpt。\n叫它帮你generate一个schedule出来。\n从这里可以看到10k卡债，每月还500，可以24个月里面还完。\n你还可以让chatgpt整理一个excel file出来。\n去bank app里面弄auto debit。\nset好你的budget，过账日期set在每月credit card due date之前。\n最好放在出粮过后的那个星期，每月出粮就自动过账。\n基本上只要自律和善用现金流，是可以用这个方式自己解决掉卡债。\n话虽这样说，但卡债就好像生病这样。\n伤风感冒这些小病可以自己去pharmacy买药吃。\n但如果你意识到状况已经不是自己一个人可以搞定。\n你要的不是药，而是整套治疗方案。\n现在欠卡债的人都很会玩。\n我遇到这位顾客，Ms L欠3间bank，总数100k。\n她就用30k的本金一直roll。\n每月先还Bank A，再withdraw出来还Bank B，再搬去Bank C。\n就这样维持了3年。\n表面看起来payment record美美的但是她发觉手头上的现金越来越少。\n3年后还是欠100k。\n本金从原本30kroll剩5k而已。\n现在只需一个失误，现金流断裂，到时min pay都还不到，就会彻底崩盘。\n后来Ms L采用personal loan的方案达到我提的3大好处。\n利息减半，有效还款。\n调低供期，增加每月现金流。\n有需要的话也可以杠杆一笔cash on hand。\n卡债欠久不是你的错，只是没用对方式解决而已。\n如果你目前开债只欠那几千块，可以看回我上条视频如何从卡债学习自救翻身。\n如果你欠的是RM20,000、RM30,000以上，连利息都还不完，那你需要的整套治疗方案。\n先说明一下哈，我这里并不是刻意要sell什么。\n如果你本身是面对着什么问题或有什么顾虑？可以给我知道。\n只有在承担责任中，我们才能真正掌握理财的智慧。", "tags": "mortgageloan, housingloan, refinancemortgage, refinance, refinanceyourhome", "bait": false, "type": "Video", "likes": 19, "comments": 0, "er": 0.34, "followers": 5563, "date": "2026-11-12", "url": "https://www.instagram.com/p/Dfo-hAvyy7d/", "video": true, "ratio": 0, "score": 0.34, "status": "未处理", "x": 1.0}, {"id": "DdwE4e7kkOw", "tracker": "FINANCE 竞对", "competitor": "emnas_loan", "caption": "房贷月供变低，就代表Refinance划算吗？\n\n#refinance #refinancemortgage #cashout #cashoutrefinance #mortgage", "transcript": "", "brk": "Hook类型: 痛点直击\n结构: 抛出常见误区 → 分析隐藏成本 → 给出判断标准\n为什么火: 直击房贷族只看月供盲目转贷的痛点，引发专业思考\n改编角度: 盘点华人买房Refinance的3大隐形坑，教你算清真实账目", "my": "现在欠卡债的人都很会玩。\n很多人以为，只要房贷月供变低了，去做Refinance就一定划算。\n其实这样的操作有盲点。\n以为只要每个月供期变少，就是成功减轻负担，其实背后可能拉长了整个还款年限。\n・第一个盲点是忽略利息成本。\n很多人看到房贷月供变低，就觉得赚到了，却没有算过把贷款期拉长后，总共多付了多少利息。\nMs L之前也是这样，表面看起来每个月commitment变少了，但其实利息越滚越多，并没有真正解决根本问题。\n・第二个盲点是现金流错配。\n有些人为了降低供期，把卡债或者其他债务转去做Refinance，结果手续费和杂费加起来，反而增加了不必要的财务压力。\n・第三个盲点是忽略整体财务状况。\n没有先做checking和看清楚自己的proposal，盲目去申请，最后发现不只没有减轻负担，还影响了整体的credit scoring。\n其实卡债欠久不是你的错，只是没用对方式解决而已。\n【剪辑:这里放案例画面】\nMs L之前欠了3间bank总数100k，用30k本金一直roll，表面payment record美美但手头现金越来越少。\n后来通过一对一了解，用适合的方案降低利息并调整供期，才真正走对方向。\n先说明一下哈 我这里并不是刻意要sell什么。\n如果你目前面对卡债或贷款问题，想知道自己适合什么方案，可以私讯我了解。\n我帮你看文件、做checking、计算proposal，没有任何的事前收费。\n只有在承担责任中，我们才能真正掌握理财的智慧。", "tags": "refinance, refinancemortgage, cashout, cashoutrefinance, mortgage", "bait": false, "type": "Carousel", "likes": 15, "comments": 0, "er": 0.27, "followers": 5563, "date": "2026-09-26", "url": "https://www.instagram.com/p/DdwE4e7kkOw/", "video": false, "ratio": 0, "score": 0.27, "status": "未处理", "x": 0.8}]</script>
+<script>
+const DATA = JSON.parse(document.getElementById('data').textContent);
+const SUPA = 'https://emkjnvjjopzgadfbtlai.supabase.co';
+const ANON = 'sb_publishable_SrZ2H85bOFaIotf8a-1GFA_oRalf7qq';
+const STATUSES = ["未处理", "拍摄中", "已处理", "跳过"];
+document.getElementById('updated').textContent = '更新于 2026-11-13 22:42 (GMT+8)';
+const PAGE = 48;
+let shown = PAGE;
+let videoOnly = false;
+let curTab = '全部';
+
+const $ = id => document.getElementById(id);
+const fmt = n => n >= 1e6 ? (n/1e6).toFixed(1)+'M' : n >= 1e3 ? (n/1e3).toFixed(1)+'K' : String(n);
+const getKey = () => ANON;  // anon key is baked in — safe, can only change status
+const I = n => '<svg class="ic"><use href="#i-' + n + '"/></svg>';
+const esc = s => String(s).replace(/[&<>"']/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
+const byRec = {}; DATA.forEach(d => byRec[d.id] = d);
+const TRENDS = [];
+DATA.forEach(d => {
+  d.days = d.date ? Math.max(0, Math.floor((Date.now() - new Date(d.date + 'T00:00:00')) / 864e5)) : null;
+  d.horse = d.followers > 0 && d.followers < 50000 && ((d.x || 0) >= 2 || d.score >= 10);
+});
+const PRESETS = [
+  { k: 'px', icon: 'trend', label: '真爆款 ×2+', f: d => (d.x || 0) >= 2 },
+  { k: 'pn', icon: 'star', label: '近7天', f: d => d.days !== null && d.days <= 7 },
+  { k: 'ph', icon: 'zap', label: '黑马', f: d => d.horse },
+  { k: 'pb', icon: 'magnet', label: '引流帖', f: d => d.bait },
+];
+const presetOn = {};
+
+function toast(msg, ok) {
+  const t = $('toast'); t.textContent = msg; t.classList.add('show');
+  t.style.borderColor = ok ? 'var(--green)' : 'var(--red)';
+  clearTimeout(t._h); t._h = setTimeout(() => t.classList.remove('show'), 2600);
+}
+
+// filters
+const comps = [...new Set(DATA.map(d => d.competitor))].sort();
+comps.forEach(c => { const o = document.createElement('option'); o.value = c; o.textContent = '@'+c; $('fComp').appendChild(o); });
+[...new Set(DATA.map(d => d.tracker))].forEach(t => { const o = document.createElement('option'); o.value = t; o.textContent = t; $('fTracker').appendChild(o); });
+
+function matchQ(d) {
+  const q = ($('fSearch').value || '').trim().toLowerCase();
+  return !q || (d.caption + ' ' + (d.tags || '') + ' ' + (d.transcript || '') + ' ' + (d.brk || '') + ' ' + d.competitor).toLowerCase().includes(q);
+}
+
+function basePool() {
+  const t = $('fTracker').value, c = $('fComp').value;
+  return DATA.filter(d => (!t || d.tracker === t) && (!c || d.competitor === c) && (!videoOnly || d.video)
+    && matchQ(d) && PRESETS.every(p => !presetOn[p.k] || p.f(d)));
+}
+
+function filtered() {
+  const s = $('fSort').value;
+  let arr = basePool().filter(d => curTab === '全部' || d.status === curTab);
+  const key = { score:'score', er:'er', comments:'comments', likes:'likes', x:'x' }[s];
+  if (s === 'date') arr.sort((a,b) => (b.date||'').localeCompare(a.date||''));
+  else arr.sort((a,b) => (b[key]||0) - (a[key]||0));
+  return arr;
+}
+
+let dragRec = null;
+
+function renderTabs() {
+  const pool = basePool();
+  const counts = { '全部': pool.length };
+  STATUSES.forEach(s => counts[s] = pool.filter(d => d.status === s).length);
+  $('tabs').innerHTML = '';
+  ['全部', ...STATUSES].forEach(name => {
+    const el = document.createElement('div');
+    el.className = 'tab' + (curTab === name ? ' on' : '') + (name !== '全部' ? ' droppable' : '');
+    el.innerHTML = esc(name) + ' <span class="cnt">' + counts[name] + '</span>';
+    el.onclick = () => { curTab = name; shown = PAGE; render(); };
+    if (name !== '全部') {
+      el.ondragover = e => { if (dragRec) { e.preventDefault(); el.classList.add('over'); } };
+      el.ondragleave = () => el.classList.remove('over');
+      el.ondrop = e => {
+        e.preventDefault(); el.classList.remove('over');
+        const d = byRec[dragRec]; dragRec = null;
+        if (d && d.status !== name) setStatus(d, name);
+      };
+    }
+    $('tabs').appendChild(el);
+  });
+}
+
+const io = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      const el = e.target, pid = el.dataset.pid;
+      if (!el.querySelector('iframe')) {
+        const f = document.createElement('iframe');
+        f.src = 'https://www.instagram.com/p/' + pid + '/embed/';
+        f.loading = 'lazy'; f.allow = 'autoplay; encrypted-media';
+        el.appendChild(f);
+      }
+      io.unobserve(el);
+    }
+  });
+}, { rootMargin: '400px' });
+
+async function setStatus(d, val) {
+  try {
+    const r = await fetch(SUPA + '/rest/v1/posts?post_id=eq.' + encodeURIComponent(d.id), {
+      method: 'PATCH',
+      headers: { 'apikey': ANON, 'Content-Type': 'application/json', 'Prefer': 'return=minimal' },
+      body: JSON.stringify({ status: val })
+    });
+    if (!r.ok) throw new Error('HTTP ' + r.status);
+    d.status = val;
+    cacheStatus(d.id, val);
+    toast('✓ @' + d.competitor + ' 已移到「' + val + '」', true);
+  } catch (e) {
+    toast('更新失败: ' + e.message + (String(e.message).includes('401') || String(e.message).includes('403') ? ' — 密钥无效?' : ''), false);
+  }
+  render();
+}
+
+function card(d, idx) {
+  const el = document.createElement('div');
+  el.className = 'card' + ((d.x || 0) >= 2 ? ' outlier' : '');
+  el.style.animationDelay = Math.min(idx % PAGE, 14) * 30 + 'ms';
+  el.draggable = true;
+  el.ondragstart = e => {
+    dragRec = d.id;
+    e.dataTransfer.effectAllowed = 'move';
+    el.classList.add('lifting');
+    document.body.classList.add('dragging');
+  };
+  el.ondragend = () => {
+    el.classList.remove('lifting');
+    document.body.classList.remove('dragging');
+    dragRec = null;
+  };
+  const typeIcon = d.video ? 'video' : (d.type === 'Carousel' ? 'layers' : 'image');
+  const days = d.days, horse = d.horse;
+  const ago = days === null ? '' : (days === 0 ? '今天' : days + '天前');
+  const lines = (d.caption || '').split('\n').map(l => l.trim()).filter(Boolean);
+  const hook = lines[0] || '';
+  const tr = (d.transcript && d.transcript !== '(转录失败)' && d.transcript !== '(无口播内容)') ? d.transcript : '';
+  el.innerHTML = `
+    <div class="embed" data-pid="${d.id}"><div class="ph"><svg class="ic"><use href="#i-${typeIcon}"/></svg></div></div>
+    <div class="meta">
+      <div class="row1">
+        <span class="handle" title="拖到上方 tab 即可归类">${I('grip')}</span>
+        <a class="who" href="https://www.instagram.com/${d.competitor}/" target="_blank">@${d.competitor}</a>
+        <span class="badge">${d.type || '-'}</span>
+        ${days !== null && days <= 7 ? '<span class="badge bnew">' + I('star') + '新帖</span>' : ''}
+        ${horse ? '<span class="badge bhorse">' + I('zap') + '黑马</span>' : ''}
+        ${d.bait ? '<span class="badge bbait" title="「留言XX」引流打法 — 评论被引流放大,漏斗设计值得学">' + I('magnet') + '引流</span>' : ''}
+        <span class="date" title="${d.date || ''}">${ago}</span>
+      </div>
+      <div class="nums">
+        <span class="num hot" title="Viral Score">${I('flame')}<b>${d.score}</b></span>
+        ${(d.x || 0) >= 2 ? '<span class="num x" title="是自家平均热度的多少倍">' + I('trend') + '<b>×' + d.x + '</b></span>' : ''}
+        <span class="num er" title="Engagement Rate">${I('pct')}<b>${d.er}%</b></span>
+        <span class="num" title="Likes">${I('heart')}<b>${d.likes > 0 ? fmt(d.likes) : '隐藏'}</b></span>
+        <span class="num" title="Comments">${I('msg')}<b>${fmt(d.comments)}</b></span>
+        <span class="num" title="Followers">${I('users')}<b>${fmt(d.followers)}</b></span>
+      </div>
+      <div class="cap" onclick="this.classList.toggle('open')"></div>
+      ${d.brk ? '<div class="ai" onclick="this.classList.toggle(&quot;open&quot;)"></div>' : ''}
+      ${d.my ? '<div class="mine" onclick="this.classList.toggle(&quot;open&quot;)"></div>' : ''}
+      <div class="srow"><label>状态</label><select class="status btn s${d.status}"></select>
+        <button class="abtn copy" title="复制完整文案">${I('copy')}文案</button>
+        ${tr ? '<button class="abtn mic" title="复制视频口播逐字稿">' + I('mic') + '口播</button>' : ''}
+        ${d.my ? '<button class="abtn minec" title="复制我的改写口播稿(可直接拍)">' + I('mic') + '我的稿</button>' : ''}
+        <button class="abtn brief" title="复制拍摄 Brief(数据+Hook+AI拆解+我的稿+口播稿+文案)">${I('clip')}Brief</button>
+        <a class="abtn" href="${d.url}" target="_blank" title="打开 Instagram 原帖">${I('ext')}</a></div>
+    </div>`;
+  const capEl = el.querySelector('.cap');
+  const restTxt = lines.slice(1).join('\n');
+  capEl.innerHTML = hook ? '<b>' + esc(hook) + '</b>' + (restTxt ? '<br>' + esc(restTxt).replace(/\n/g, '<br>') : '') : '';
+  const aiEl = el.querySelector('.ai');
+  if (aiEl) aiEl.innerHTML = '<b>💡 AI 拆解</b><br>' + esc(d.brk).split(String.fromCharCode(10)).join('<br>');
+  const myEl = el.querySelector('.mine');
+  if (myEl) myEl.innerHTML = '<b>🎬 我的版本(可直接拍)</b><br>' + esc(d.my).split(String.fromCharCode(10)).join('<br>');
+  const sel = el.querySelector('.status');
+  STATUSES.forEach(s => { const o = document.createElement('option'); o.value = s; o.textContent = s; sel.appendChild(o); });
+  sel.value = d.status;
+  sel.onchange = () => setStatus(d, sel.value);
+  el.querySelector('.copy').onclick = () =>
+    navigator.clipboard.writeText(d.caption || '').then(() => toast('✓ 文案已复制', true));
+  const micBtn = el.querySelector('.mic');
+  if (micBtn) micBtn.onclick = () =>
+    navigator.clipboard.writeText(tr).then(() => toast('✓ 口播稿已复制', true));
+  const mineBtn = el.querySelector('.minec');
+  if (mineBtn) mineBtn.onclick = () =>
+    navigator.clipboard.writeText(d.my).then(() => toast('✓ 我的改写稿已复制', true));
+  el.querySelector('.brief').onclick = () => {
+    const NL = String.fromCharCode(10);
+    const parts = ['🎬 爆款参考 @' + d.competitor + ((d.x || 0) >= 2 ? '(自家平均 ×' + d.x + ')' : ''),
+      '📊 🔥' + d.score + ' | ER ' + d.er + '% | ❤️ ' + (d.likes > 0 ? fmt(d.likes) : '隐藏') +
+      ' | 💬 ' + fmt(d.comments) + ' | 👥 ' + fmt(d.followers) + (ago ? ' | ' + ago : ''),
+      '🔗 ' + d.url, '✍️ Hook: ' + hook];
+    if (d.brk) parts.push('——— AI 拆解 ———', d.brk);
+    if (d.my) parts.push('——— 我的版本(可直接拍)———', d.my);
+    if (tr) parts.push('——— 竞对原口播稿 ———', tr);
+    parts.push('——— 完整文案 ———', d.caption || '');
+    navigator.clipboard.writeText(parts.join(NL)).then(() => toast('✓ Brief 已复制,可直接发给拍摄/剪辑', true));
+  };
+  io.observe(el.querySelector('.embed'));
+  return el;
+}
+
+function render() {
+  renderTabs();
+  const arr = filtered();
+  const grid = $('grid'); grid.innerHTML = '';
+  arr.slice(0, shown).forEach((d, i) => grid.appendChild(card(d, i)));
+  $('empty').style.display = arr.length ? 'none' : '';
+  $('moreWrap').style.display = arr.length > shown ? '' : 'none';
+}
+
+
+function applyStatusCache() {
+  try {
+    const c = JSON.parse(localStorage.getItem('st_cache') || '{}');
+    Object.keys(c).forEach(rid => { const d = byRec[rid]; if (d) d.status = c[rid]; });
+  } catch (e) {}
+}
+
+function cacheStatus(rid, val) {
+  try {
+    const c = JSON.parse(localStorage.getItem('st_cache') || '{}');
+    c[rid] = val; localStorage.setItem('st_cache', JSON.stringify(c));
+  } catch (e) {}
+}
+
+// live status refresh (so weekly-baked page shows current statuses)
+async function refreshStatuses() {
+  applyStatusCache(); render();  // last-known statuses first
+  if (Date.now() - (+localStorage.getItem('st_ts') || 0) < 600000) return;  // 10-min throttle
+  localStorage.setItem('st_ts', String(Date.now()));
+  const fresh = {};
+  try {
+    const r = await fetch(SUPA + '/rest/v1/posts?select=post_id,status', { headers: { 'apikey': ANON } });
+    if (!r.ok) return;
+    (await r.json()).forEach(row => {
+      const d = byRec[row.post_id];
+      if (d) d.status = row.status || '未处理';
+      if (row.status && row.status !== '未处理') fresh[row.post_id] = row.status;
+    });
+    localStorage.setItem('st_cache', JSON.stringify(fresh));
+    render();
+  } catch (e) {}
+}
+
+['fTracker','fComp','fSort'].forEach(id => $(id).onchange = () => { shown = PAGE; render(); });
+$('fSearch').oninput = () => { shown = PAGE; render(); };
+$('fVideo').onclick = () => { videoOnly = !videoOnly; $('fVideo').classList.toggle('on', videoOnly); shown = PAGE; render(); };
+$('moreBtn').onclick = () => { shown += PAGE; render(); };
+
+// preset quick filters
+$('presets').innerHTML = '<span class="lbl">快筛</span>';
+PRESETS.forEach(p => {
+  const c = document.createElement('span'); c.className = 'chip2';
+  c.innerHTML = I(p.icon) + esc(p.label);
+  c.onclick = () => { presetOn[p.k] = !presetOn[p.k]; c.classList.toggle('on', presetOn[p.k]); shown = PAGE; render(); };
+  $('presets').appendChild(c);
+});
+
+// trending hashtags among outlier posts
+if (TRENDS.length) {
+  $('trends').innerHTML = '<span class="lbl">爆款热词</span>';
+  TRENDS.forEach(([tag, n]) => {
+    const c = document.createElement('span'); c.className = 'chip2';
+    c.textContent = '#' + tag + ' ' + n;
+    c.onclick = () => { $('fSearch').value = $('fSearch').value === tag ? '' : tag; shown = PAGE; render(); };
+    $('trends').appendChild(c);
+  });
+} else { $('trends').style.display = 'none'; }
+
+render();
+refreshStatuses();
+</script>
+</body>
+</html>
