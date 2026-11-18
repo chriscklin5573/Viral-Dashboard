@@ -110,7 +110,7 @@ def sb(path, method="GET", data=None, prefer=None):
 def fetch_pending():
     flt = "" if REWRITE_ALL else "&my_script=is.null"
     rows = sb(
-        "posts?select=post_id,competitor,caption,transcript,post_type,"
+        "posts?select=post_id,competitor,caption,transcript,ai_breakdown,post_type,"
         "likes,comments,followers"
         + flt +
         "&order=viral_score.desc.nullslast"
@@ -133,6 +133,9 @@ def build_prompt(p):
         body += f"\n【原视频口播稿(主要改写依据)】\n{tr[:2800]}\n"
     if cap:
         body += f"\n【原帖文案(辅助参考)】\n{cap}\n"
+    ab = (p.get("ai_breakdown") or "").strip()
+    if ab:
+        body += f"\n【AI 拆解(照里面的「改编角度」改)】\n{ab[:800]}\n"
     body += "\n请按系统指令,把上面这条爆款改写成【人设与规矩】里这个人的中文口播脚本。"
     return body
 
