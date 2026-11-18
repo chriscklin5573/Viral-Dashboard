@@ -9,6 +9,10 @@ on:
         description: "改了 brand_voice.md 想整批重刷?填 1(留空 = 只补还没有稿的新帖)"
         required: false
         default: ""
+      post_limit:
+        description: "这次最多改写几条(默认 60;整批重刷想一次刷完就填 200)"
+        required: false
+        default: "60"
 
 permissions:
   contents: read
@@ -29,4 +33,5 @@ jobs:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}   # 可选,设了就优先用 Claude
           NICHE: ${{ vars.NICHE }}
           REWRITE_ALL: ${{ inputs.rewrite_all }}
+          POST_LIMIT: ${{ inputs.post_limit || '60' }}
         run: python rewrite_posts.py
