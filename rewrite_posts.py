@@ -36,6 +36,8 @@ GEMINI_MODEL = os.environ.get("GEMINI_MODEL", "gemini-2.5-flash")
 GEMINI_FALLBACKS = ("gemini-2.5-flash", "gemini-3.5-flash-lite", "gemini-3.8-flash")
 _gemini_models = [GEMINI_MODEL] + [m for m in GEMINI_FALLBACKS if m != GEMINI_MODEL]
 CLAUDE_MODEL = os.environ.get("CLAUDE_MODEL", "claude-haiku-4-5-20251001")
+# ChatGPT:设了 OPENAI_API_KEY 就优先用。模型名照 OpenAI 后台写的填进 OPENAI_MODEL 变量。
+OPENAI_MODEL = (os.environ.get("OPENAI_MODEL") or "gpt-5.4-mini").strip()
 POST_LIMIT = int(os.environ.get("POST_LIMIT", "60"))
 REWRITE_ALL = os.environ.get("REWRITE_ALL", "").strip()  # set to redo existing (voice change)
 FAIL_MARK = "(改写失败)"
@@ -177,6 +179,21 @@ def rewrite_anthropic(key, p):
     return "".join(x.get("text", "") for x in parts if x.get("type") == "text").strip()
 
 
+def rewrite_openai(key, p):
+    # Chat Completions API. max_completion_tokens 包含模型的推理 token,所以给宽一点。
+    # 不传 temperature:推理型模型只接受默认值。
+    resp = _request(
+        "https://api.openai.com/v1/chat/completions", "POST",
+        {"model": OPENAI_MODEL, "max_completion_tokens": 6000,
+         "messages": [{"role": "system", "content": SYSTEM},
+                      {"role": "user", "content": build_prompt(p)}]},
+        {"Authorization": "Bearer " + key}, 120)
+    choices = resp.get("choices") or []
+    if not choices:
+        return ""
+    return ((choices[0].get("message") or {}).get("content") or "").strip()
+
+
 def save(post_id, text):
     sb(f"posts?post_id=eq.{urllib.parse.quote(post_id)}", method="PATCH",
        data={"my_script": text[:4000]}, prefer="return=minimal")
@@ -186,16 +203,20 @@ def main():
     if not SUPABASE_URL or not os.environ.get("SUPABASE_SERVICE_ROLE_KEY"):
         print("ERROR: SUPABASE_URL / SUPABASE_SERVICE_ROLE_KEY required")
         sys.exit(1)
+    openai_key = (os.environ.get("OPENAI_API_KEY") or "").strip()
     anthropic_key = (os.environ.get("ANTHROPIC_API_KEY") or "").strip()
     gemini_key = (os.environ.get("GEMINI_API_KEY") or "").strip()
-    if anthropic_key:
+    if openai_key:
+        provider, delay = "openai " + OPENAI_MODEL, 0.5
+        call = lambda p: rewrite_openai(openai_key, p)
+    elif anthropic_key:
         provider, delay = "anthropic", 0.5
         call = lambda p: rewrite_anthropic(anthropic_key, p)
     elif gemini_key:
         provider, delay = "gemini", 6.5  # 免费档约 10 次/分钟,留点余量
         call = lambda p: rewrite_gemini(gemini_key, p)
     else:
-        print("No ANTHROPIC_API_KEY or GEMINI_API_KEY — skipping (non-fatal).")
+        print("No OPENAI_API_KEY, ANTHROPIC_API_KEY or GEMINI_API_KEY — skipping (non-fatal).")
         print("到仓库 Settings → Secrets and variables → Actions 加 GEMINI_API_KEY(Google AI Studio 免费拿)。")
         return
     print(f"[Provider] {provider} | [Niche] {NICHE}" + (" | REWRITE_ALL" if REWRITE_ALL else ""))

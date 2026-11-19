@@ -31,6 +31,8 @@ jobs:
           SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}         # 免费:Google AI Studio 拿
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}   # 可选,设了就优先用 Claude
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}   # 设了就优先用 ChatGPT
+          OPENAI_MODEL: ${{ vars.OPENAI_MODEL }}
           NICHE: ${{ vars.NICHE }}
           REWRITE_ALL: ${{ inputs.rewrite_all }}
           POST_LIMIT: ${{ inputs.post_limit || '60' }}
